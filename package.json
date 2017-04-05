@@ -4,7 +4,8 @@
   "description": "personalized dictionary for acronyms",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node server.js"
   },
   "author": "Illana",
   "license": "ISC",
