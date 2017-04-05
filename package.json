@@ -1,0 +1,19 @@
+{
+  "name": "my-acronym-dictionary-app",
+  "version": "1.0.0",
+  "description": "personalized dictionary for acronyms",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Illana",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.2.0"
+  }
+}
