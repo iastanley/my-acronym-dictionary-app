@@ -1,0 +1,22 @@
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-brand span {
+  font-size: 1.5em;
+}
+
+.navbar-right {
+  float: right!important;
+  margin-right: -15px;
+}
+
+.categories {
+  height: 100vh;
+  background: red;
+}
+
+.main-search {
+  height: 100vh;
+  background: blue;
+}
