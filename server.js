@@ -3,6 +3,13 @@ const app = express();
 
 app.use(express.static('public'));
 
+app.get('/', (req, res) => {
+  res.status(200).sendFile(__dirname + '/views/index.html');
+});
+
+
+
+
 let server;
 
 function runServer() {
