@@ -61,77 +61,21 @@
       <!-- Category Sidebar -->
       <div class="row">
         <div class="col-md-3 col-sm-4 categories" id="categories">
+          <!-- Category List Will Go Here -->
         </div> <!--end of categories column-->
 
         <div class="col-md-9 col-sm-8 main-search">
           <h3 class="text-center">Acronym Search</h3>
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for acronyms...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go</button>
-            </span>
-          </div><!-- /input-group -->
-          <div class="row search-results">
-            <div class="col-lg-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
-              </div>
-            </div><!--end of col for panel-->
-            <div class="col-lg-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
-              </div>
-            </div><!--end of col for panel-->
-            <div class="col-lg-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
-              </div>
-            </div><!--end of col for panel-->
-            <div class="col-lg-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
-              </div>
-            </div><!--end of col for panel-->
-            <div class="col-lg-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
-              </div>
-            </div><!--end of col for panel-->
-            <div class="col-lg-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
-              </div>
-            </div><!--end of col for panel-->
+          <form id="search-form">
+            <div class="input-group">
+              <input id="search-input" type="text" class="form-control" placeholder="Search for acronyms...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" id="search-btn">Go</button>
+              </span>
+            </div><!-- /input-group -->
+          </form>
+          <div class="row search-results" id="acronym-entries">
+            <!-- Acronym Entries Will Go Here -->
           </div><!--end of nested row-->
         </div> <!--end of main search column-->
       </div><!--end of row-->
