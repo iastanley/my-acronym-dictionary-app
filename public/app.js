@@ -103,14 +103,14 @@ function getCategoryDataById(id) {
 //display categories in sidebar
 function displayCategories(data) {
   let html =`<h3 class="text-center">Categories</h3>
-            <div class="panel panel-default">
+            <div class="panel panel-default category" id="all-categories">
               <div class="panel-body">
                 All Categories
               </div>
             </div>`;
   categories.forEach(category => {
     html +=
-      `<div class="panel panel-default" style="background-color:${category.color}">
+      `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
         <div class="panel-body">
         ${category.title}
         </div>
@@ -141,6 +141,15 @@ function displayAcronymEntries(data) {
   $('#acronym-entries').html(html);
 }
 
+function displayAcronymEntriesByCategory(categoryId) {
+  return function(data) {
+    let filteredData = data.filter(item => {
+      return item.categoryId == categoryId;
+    });
+    displayAcronymEntries(filteredData);
+  }
+}
+
 function searchAcronyms(searchTerm) {
   return function(data) {
     let regex = new RegExp(`(${searchTerm})`, 'g');
@@ -165,12 +174,25 @@ function addSearchListener() {
   });
 }
 
+//filter acronyms by category
+function addCategoryListener() {
+  $('#categories').on('click', '.category', function() {
+    if ($(this).attr('id') == 'all-categories') {
+      getAcronymData(displayAcronymEntries);
+    } else {
+      const categoryId = $(this).attr('id');
+      getAcronymData(displayAcronymEntriesByCategory(categoryId));
+    }
+
+  });
+}
+
 $(function() {
   getCategoryData();
-  getAcronymData(displayCategories);
+  displayCategories(categories);
   getAcronymData(displayAcronymEntries);
-
   addSearchListener();
+  addCategoryListener();
 });
 //display entries
 
