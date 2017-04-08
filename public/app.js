@@ -96,6 +96,10 @@ function getCategoryData() {
   categories = MOCK_CATEGORY_LIST;
 }
 
+function getCategoryDataById(id) {
+  return categories.find(category => category.id === id);
+}
+
 //display categories in sidebar
 function displayCategories(data) {
   let html =`<h3 class="text-center">Categories</h3>
@@ -119,9 +123,7 @@ function displayCategories(data) {
 function displayAcronymEntries(data) {
   let html = '';
   data.forEach(acronym => {
-    let color = categories.find(category => {
-      return category.title === acronym.category;
-    }).color;
+    let color = getCategoryDataById(acronym.categoryId).color;
     html +=
       `<div class="col-lg-6">
         <div class="panel panel-default">
