@@ -8,7 +8,7 @@ app.get('/main', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-  res.redirect('/main');
+  res.status(201).redirect('/main');
 });
 
 
