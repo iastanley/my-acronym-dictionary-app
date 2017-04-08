@@ -1,0 +1,35 @@
+.index-page h1, .index-page .button-section {
+  margin: 100px auto;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-brand span {
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+
+.navbar>.container-fluid .navbar-brand, .navbar>.container-fluid .navbar-right {
+  margin-right: 0;
+}
+
+.navbar-right {
+  float: right!important;
+  margin-right: -15px;
+}
+
+.category {
+  cursor: pointer;
+}
+
+.main-search {
+  border-left: 1px solid #e7e7e7;
+}
+
+.search-results {
+  margin-top: 30px;
+  height: 80vh;
+  overflow-y: scroll;
+}

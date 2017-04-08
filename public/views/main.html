@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Acronym Dictionary</title>
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  </head>
+  <body>
+    <!-- header -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="../index.html">
+          <span>MAD</span> = My Acronym Dictionary
+        </a>
+        <button type="button" data-toggle="modal" data-target="#add-new-entry" class="btn btn-primary navbar-btn navbar-right">Add New Entry</button>
+      </div>
+    </nav>
+
+    <!-- modal for adding new entry -->
+    <div class="modal fade" id="add-new-entry" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center">Add New Acronym</h4>
+          </div>
+          <form>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="acronym-input">Acronym</label>
+                <input type="text" class="form-control" id="acronym-input" required>
+              </div>
+              <div class="form-group">
+                <label for="spell-out-input">Spelled Out</label>
+                <input type="text" class="form-control" id="spell-out-input" required>
+              </div>
+              <div class="form-group">
+                <label for="definition-input">Definition (optional)</label>
+                <input type="text" class="form-control" id="definition-input">
+              </div>
+              <div class="form-group">
+                <label for="category-input">Category</label>
+                <input type="text" class="form-control" id="category-input">
+              </div>
+            </div><!--end of modal body-->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Add Acronym</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- Category Sidebar -->
+        <div class="col-md-3 col-sm-4 category-list" id="categories">
+          <!-- Category List Will Go Here -->
+        </div> <!--end of categories column-->
+
+        <!-- Main Search and Results Section -->
+        <div class="col-md-9 col-sm-8 main-search">
+          <h3 class="text-center">Acronym Search</h3>
+          <form id="search-form">
+            <div class="input-group">
+              <input id="search-input" type="text" class="form-control" placeholder="Search for acronyms...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" id="search-btn">Go</button>
+              </span>
+            </div><!-- /input-group -->
+          </form>
+          <div class="row search-results" id="acronym-entries">
+            <!-- Acronym Entries Will Go Here -->
+          </div><!--end of nested row-->
+        </div> <!--end of main search column-->
+      </div><!--end of row-->
+    </div><!--end of container-->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Custom Script -->
+    <script type="text/javascript" src="../app.js"></script>
+  </body>
+</html>

@@ -3,8 +3,12 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.status(200).sendFile(__dirname + '/views/index.html');
+app.get('/main', (req, res) => {
+  res.status(200).sendFile(__dirname + '/public/views/main.html');
+});
+
+app.post('/users', (req, res) => {
+  res.status(201).redirect('/main');
 });
 
 
