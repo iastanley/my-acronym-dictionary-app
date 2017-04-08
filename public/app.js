@@ -5,7 +5,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "LOL",
       "spellOut": "Laughing Out Loud",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Casual"
+      "categoryId": "10"
     },
     {
       "id": "2",
@@ -13,7 +13,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "FOMO",
       "spellOut": "Fear Of Missing Out",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Casual"
+      "categoryId": "10"
     },
     {
       "id": "3",
@@ -21,7 +21,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "TTYL",
       "spellOut": "Talk To You Later",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Casual"
+      "categoryId": "10"
     },
     {
       "id": "4",
@@ -29,7 +29,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "JSON",
       "spellOut": "JavaScript Object Notation",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Programming"
+      "categoryId": "20"
     },
     {
       "id": "5",
@@ -37,7 +37,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "PLC",
       "spellOut": "Programmable Logic Controller",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Programming"
+      "categoryId": "20"
     },
     {
       "id": "6",
@@ -45,7 +45,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "PLC",
       "spellOut": "Phospholipase C",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Biology"
+      "categoryId": "30"
     },
     {
       "id": "7",
@@ -53,7 +53,7 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "MAPK",
       "spellOut": "Mitogen Activated Protein Kinase",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Biology"
+      "categoryId": "30"
     },
     {
       "id": "8",
@@ -61,21 +61,24 @@ const MOCK_ACRONYM_DATA = [
       "acronym": "DRY",
       "spellOut": "Don't Repeat Yourself",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Programming"
+      "categoryId": "20"
     }
   ];
 
 const MOCK_CATEGORY_LIST =
   [
     {
+      "id": "10",
       "title": "Casual",
       "color": "#ff00ff"
     },
     {
+      "id": "20",
       "title": "Programming",
       "color": "#00ffff"
     },
     {
+      "id": "30",
       "title": "Biology",
       "color": "#ffff00"
     }
