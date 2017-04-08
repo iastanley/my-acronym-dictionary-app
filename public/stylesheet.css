@@ -4,6 +4,11 @@
 
 .navbar-brand span {
   font-size: 1.5em;
+  vertical-align: middle;
+}
+
+.navbar>.container-fluid .navbar-brand, .navbar>.container-fluid .navbar-right {
+  margin-right: 0;
 }
 
 .navbar-right {
@@ -11,12 +16,16 @@
   margin-right: -15px;
 }
 
-.category-list {
-  border-right: 1px solid #e7e7e7;
+.category {
+  cursor: pointer;
+}
+
+.main-search {
+  border-left: 1px solid #e7e7e7;
 }
 
 .search-results {
   margin-top: 30px;
-  height: 75vh;
+  height: 80vh;
   overflow-y: scroll;
 }
