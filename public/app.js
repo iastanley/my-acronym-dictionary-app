@@ -143,8 +143,10 @@ function displayAcronymEntries(data) {
 
 function searchAcronyms(searchTerm) {
   return function(data) {
+    let regex = new RegExp(`(${searchTerm})`, 'g');
     let searchResults = data.filter(item => {
-      return searchTerm === item.acronym;
+      //return true if searchTerm is found in item.acronym or in item.spellOut
+      return regex.test(item.acronym) || regex.test(item.spellOut);
     });
     displayAcronymEntries(searchResults);
 
