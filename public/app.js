@@ -1,5 +1,4 @@
-const MOCK_DATA = {
-  "acronymList": [
+const MOCK_ACRONYM_DATA = [
     {
       "id": "1",
       "user": "sam",
@@ -54,7 +53,7 @@ const MOCK_DATA = {
       "acronym": "MAPK",
       "spellOut": "Mitogen Activated Protein Kinase",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Programming"
+      "category": "Biology"
     },
     {
       "id": "8",
@@ -62,10 +61,12 @@ const MOCK_DATA = {
       "acronym": "DRY",
       "spellOut": "Don't Repeat Yourself",
       "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "category": "Biology"
+      "category": "Programming"
     }
-  ],
-  "categoryList": [
+  ];
+
+const MOCK_CATEGORY_LIST =
+  [
     {
       "title": "Casual",
       "color": "#ff00ff"
@@ -78,24 +79,29 @@ const MOCK_DATA = {
       "title": "Biology",
       "color": "#ffff00"
     }
-  ]
-};
+  ];
+
+let categories = [];
 
 //fake ajax call to get data
 function getAcronymData(callback) {
-  (function(){callback(MOCK_DATA)})();
-  // setTimeout(function(){callback(MOCK_DATA)}, 100);
+  // (function(){callback(MOCK_DATA)})();
+  setTimeout(function(){callback(MOCK_ACRONYM_DATA)}, 100);
+}
+
+function getCategoryData() {
+  categories = MOCK_CATEGORY_LIST;
 }
 
 //display categories in sidebar
 function displayCategories(data) {
-  let html ='<h3 class="text-center">Categories</h3>'
-              + '<div class="panel panel-default">'
-              + '<div class="panel-body">'
-              + 'All Categories'
-              + '</div>'
-              + '</div>';
-  data.categoryList.forEach(category => {
+  let html =`<h3 class="text-center">Categories</h3>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                All Categories
+              </div>
+            </div>`;
+  categories.forEach(category => {
     html +=
       `<div class="panel panel-default" style="background-color:${category.color}">
         <div class="panel-body">
@@ -109,8 +115,8 @@ function displayCategories(data) {
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
   let html = '';
-  data.acronymList.forEach(acronym => {
-    let color = data.categoryList.find(category => {
+  data.forEach(acronym => {
+    let color = categories.find(category => {
       return category.title === acronym.category;
     }).color;
     html +=
@@ -132,10 +138,11 @@ function displayAcronymEntries(data) {
 
 function searchAcronyms(searchTerm) {
   return function(data) {
-    let searchResults = data.acronymList.filter(item => {
+    let searchResults = data.filter(item => {
       return searchTerm === item.acronym;
     });
-    console.log(searchResults);
+    displayAcronymEntries(searchResults);
+
   }
 }
 
@@ -152,8 +159,10 @@ function addSearchListener() {
 }
 
 $(function() {
+  getCategoryData();
   getAcronymData(displayCategories);
   getAcronymData(displayAcronymEntries);
+
   addSearchListener();
 });
 //display entries

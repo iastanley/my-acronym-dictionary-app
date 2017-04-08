@@ -3,12 +3,8 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.status(200).sendFile(__dirname + '/views/start-page.html');
-});
-
 app.get('/acronyms', (req, res) => {
-  res.status(200).sendFile(__dirname + '/views/index.html');
+  res.status(200).sendFile(__dirname + '/public/views/main.html');
 });
 
 app.post('/users', (req, res) => {
