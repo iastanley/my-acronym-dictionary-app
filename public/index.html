@@ -11,12 +11,76 @@
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
   </head>
   <body>
-    <div class="container-fluid text-center">
+    <div class="container-fluid text-center index-page">
       <h1>MAD = My Acronym Dictionary</h1>
-      <form method="POST" action="/users">
-        <button type="submit" name="button">Log In</button>
-      </form>
+      <div class="button-section">
+        <button class="btn btn-lg btn-primary"type="submit" name="button" data-toggle="modal" data-target="#login-btn">Log In</button>
+      </div>
+      <div class="button-section">
+        <h4>Don't have an account?</h4>
+        <button class="btn btn-lg btn-link"type="submit" name="button" data-toggle="modal" data-target="#sign-up-btn">Sign Up Here</button>
+      </div>
+      <!-- <form method="POST" action="/users"> -->
+
+      <!-- </form> -->
+
     </div>
+    <!-- modal for logging in for existing user -->
+    <div class="modal fade" id="login-btn" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center">Log In</h4>
+          </div>
+          <form method="POST" action="/users">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" required>
+              </div>
+            </div><!--end of modal body-->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Log In</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="sign-up-btn" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center">Sign Up</h4>
+          </div>
+          <form method="POST" action="/users">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" required>
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm-password" required>
+              </div>
+            </div><!--end of modal body-->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!-- jQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
