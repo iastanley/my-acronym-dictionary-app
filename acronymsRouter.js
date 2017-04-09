@@ -13,7 +13,44 @@ router.use(bodyParser.json());
 
 //get all acronyms
 router.get('/', (req, res) => {
+  Acronym
+    .find()
+    .exec()
+    .then(acronyms => {
+      res.status(200).json(acronyms);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
+});
 
+router.post('/', (req, res) => {
+  //validate required fields
+  const requiredFields = ['acronym', 'spellOut', 'categoryId'];
+  requiredFields.forEach(field => {
+    if (!(field in req.body)) {
+      const message = `Missing '${field}' in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  });
+
+  Acronym
+    .create({
+      userId: req.body.userId,
+      acronym: req.body.acronym,
+      spellOut: req.body.spellOut,
+      definition: req.body.definition || '',
+      categoryId: req.body.categoryId
+    })
+    .then(acronym => {
+      res.status(201).json(acronym);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
 });
 
 module.exports = router;

@@ -1,9 +1,13 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const app = express();
 
 const usersRouter = require('./usersRouter');
 const acronymsRouter = require('./acronymsRouter');
+const {PORT, DATABASE_URL} = require('./config.js');
+
+mongoose.Promise = global.Promise;
 
 app.use(morgan('common'));
 app.use(express.static('public'));
@@ -29,7 +33,7 @@ function runServer(databaseUrl=DATABASE_URL, port=PORT) {
       if (err) {
         return reject(err);
       }
-      server.app.listen(port, () => {
+      server = app.listen(port, () => {
         console.log(`Server started on port: ${port}`);
         resolve();
       })
@@ -37,7 +41,7 @@ function runServer(databaseUrl=DATABASE_URL, port=PORT) {
         reject(err);
       });
     });
-  }
+  });
 }
 
 function closeServer() {
