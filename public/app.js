@@ -194,6 +194,3 @@ $(function() {
   addSearchListener();
   addCategoryListener();
 });
-//display entries
-
-//search entries by acronym name or spell-out
