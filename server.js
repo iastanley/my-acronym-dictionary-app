@@ -3,9 +3,12 @@ const morgan = require('morgan');
 const app = express();
 
 const usersRouter = require('./usersRouter');
+const acronymsRouter = require('./acronymsRouter');
 
 app.use(morgan('common'));
 app.use(express.static('public'));
+
+app.use('/acronyms', acronymsRouter);
 
 app.get('/main', (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
