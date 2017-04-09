@@ -1,6 +1,10 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 
+const usersRouter = require('./usersRouter');
+
+app.use(morgan('common'));
 app.use(express.static('public'));
 
 app.get('/main', (req, res) => {
