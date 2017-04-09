@@ -7,6 +7,8 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
+const {Acronym} = require('./models');
+
 router.use(bodyParser.json());
 
 //get all acronyms
