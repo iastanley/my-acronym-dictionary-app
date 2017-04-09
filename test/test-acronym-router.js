@@ -17,7 +17,6 @@ chai.use(chaiHttp);
 
 //seed test-mad-app database
 function seedAcronymData() {
-  console.log('seeding acronym data');
   const seedData = [];
   //loop to create documents that are pushed to seedData
   for (let i = 0; i < 10; i++) {
@@ -39,7 +38,6 @@ function createAcronymEntry() {
 
 //close test database
 function tearDownDb() {
-  console.log('Deleting test-mad-app database');
   return mongoose.connection.dropDatabase();
 }
 
@@ -80,15 +78,41 @@ describe('Acronym API', function() {
             });
           testEntry = res.body[0];
           Acronym
-            .findById(testEntry.id)
+            .findById(testEntry._id)
             .exec()
             .then(entry => {
-              testEntry.id.should.equal(entry.id);
-              testEntry.acroynm.should.equal(entry.acronym);
-              testEntry.spellOut.should.equal(entry.acronym);
+              // testEntry._id.should.equal(entry.id);
+              testEntry.acronym.should.equal(entry.acronym);
+              testEntry.spellOut.should.equal(entry.spellOut);
               testEntry.categoryId.should.equal(entry.categoryId);
             });
         }); //end of outermost then block
     }); //end of it block
   }); //end of GET tests
+
+  describe('tests for POST request', function() {
+    it('should create new acronym entry', function() {
+      const newEntry = createAcronymEntry();
+      return chai.request(app)
+        .post('/acronyms')
+        .send(newEntry)
+        .then(res => {
+          res.should.have.status(201);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.include.keys('userId', 'acronym', 'spellOut', 'categoryId');
+          res.body.acronym.should.equal(newEntry.acronym);
+          res.body.spellOut.should.equal(newEntry.spellOut);
+          res.body.categoryId.should.equal(newEntry.categoryId);
+          Acronym
+            .findById(res.body._id)
+            .exec()
+            .then(entry => {
+              entry.acronym.should.equal(newEntry.acronym);
+              entry.spellOut.should.equal(newEntry.spellOut);
+              entry.categoryId.should.equal(newEntry.categoryId);
+            });
+        }); //end of outermost then block
+    }); //end of it block
+  });//end of POST tests
 }); //end of all tests for Acronym API
