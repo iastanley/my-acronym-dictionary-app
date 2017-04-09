@@ -116,7 +116,7 @@ function displayCategories(data) {
         </div>
       </div>`;
   });
-  $('#categories').html(html);
+  $('#category-list').html(html);
 }
 
 //display acronym entries in main search area
@@ -176,7 +176,7 @@ function addSearchListener() {
 
 //filter acronyms by category
 function addCategoryListener() {
-  $('#categories').on('click', '.category', function() {
+  $('#category-list').on('click', '.category', function() {
     if ($(this).attr('id') == 'all-categories') {
       getAcronymData(displayAcronymEntries);
     } else {
