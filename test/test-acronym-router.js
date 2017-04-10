@@ -115,4 +115,33 @@ describe('Acronym API', function() {
         }); //end of outermost then block
     }); //end of it block
   });//end of POST tests
+
+  describe('tests for PUT request', function() {
+    it('should update acronym entry', function() {
+
+    }); //end of it block
+  });//end of PUT tests
+
+  describe('tests for DELETE request', function() {
+    it('should delete acronym entry', function() {
+      let deletedEntry;
+      return Acronym
+        .findOne()
+        .exec()
+        .then(entry => {
+          deletedEntry = entry;
+          return chai.request(app)
+            .delete(`/acronyms/${deletedEntry.id}`)
+        })
+        .then(res => {
+          res.should.have.status(204);
+          Acronym
+            .findById(deletedEntry.id)
+            .exec()
+            .then(entry => {
+              should.not.exist(entry);
+            });
+        });
+    }); //end of it block
+  })//end of DELETE test
 }); //end of all tests for Acronym API

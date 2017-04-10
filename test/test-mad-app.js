@@ -9,7 +9,7 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 
-describe('Static Page Loading', function() {
+describe('tests for static pages', function() {
   before(function() {
     return runServer(TEST_DATABASE_URL);
   });
