@@ -80,7 +80,14 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-
+  Acronym
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => res.status(204).end())
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
 });
 
 module.exports = router;
