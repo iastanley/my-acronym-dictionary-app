@@ -53,4 +53,34 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/:id', (req, res) => {
+  //verify that req.params.id and req.body.id match
+  if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    const message = `Path id: ${req.params.id} and request body id: ${req.body.id} don't match`;
+    console.error(message);
+    res.status(400).json({message: message});
+  }
+  //create object for PUT request
+  const updatesToAcronym = {};
+  const updateFields = ['acronym', 'spellOut', 'definition', 'categoryId'];
+  updateFields.forEach(field => {
+    if (field in req.body) {
+      updatesToAcronym[field] = req.body[field];
+    }
+  });
+
+  Acronym
+    .findByIdAndUpdate(req.params.id, {$set: updatesToAcronym}, {new: true})
+    .exec()
+    .then(acronym => res.status(200).json(acronym))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
+});
+
+router.delete('/:id', (req, res) => {
+
+});
+
 module.exports = router;
