@@ -13,6 +13,18 @@ const acronymSchema = mongoose.Schema({
   categoryId: {type: String}
 });
 
+//creating response method to avoid _id vs id issues
+acronymSchema.methods.apiResponse = function() {
+  return {
+    id: this.id,
+    userId: this.userId,
+    acronym: this.acronym,
+    spellOut: this.spellOut,
+    definition: this.definition,
+    categoryId: this.categoryId
+  }
+}
+
 const Acronym = mongoose.model('Acronym', acronymSchema);
 
 //model for categories

@@ -68,9 +68,9 @@ describe('Acronym API', function() {
           res.should.be.json;
           res.body.should.be.a('array');
           res.body.should.not.be.empty;
-          res.body.forEach(post => {
-            post.should.be.a('object');
-            post.should.include.keys('userId', 'acronym', 'spellOut', 'categoryId');
+          res.body.forEach(entry => {
+            entry.should.be.a('object');
+            entry.should.include.keys('userId', 'acronym', 'spellOut', 'categoryId');
           });
           Acronym.count()
             .then(count => {
@@ -78,7 +78,7 @@ describe('Acronym API', function() {
             });
           testEntry = res.body[0];
           Acronym
-            .findById(testEntry._id)
+            .findById(testEntry.id)
             .exec()
             .then(entry => {
               // testEntry._id.should.equal(entry.id);
@@ -105,7 +105,7 @@ describe('Acronym API', function() {
           res.body.spellOut.should.equal(newEntry.spellOut);
           res.body.categoryId.should.equal(newEntry.categoryId);
           Acronym
-            .findById(res.body._id)
+            .findById(res.body.id)
             .exec()
             .then(entry => {
               entry.acronym.should.equal(newEntry.acronym);
@@ -138,7 +138,7 @@ describe('Acronym API', function() {
           res.should.be.json;
           res.body.should.be.a('object');
           res.body.should.include.keys('acronym', 'spellOut', 'definition', 'categoryId');
-          res.body._id.should.equal(updateData.id);
+          res.body.id.should.equal(updateData.id);
           res.body.acronym.should.equal(updateData.acronym);
           res.body.spellOut.should.equal(updateData.spellOut);
           res.body.categoryId.should.equal(updateData.categoryId);

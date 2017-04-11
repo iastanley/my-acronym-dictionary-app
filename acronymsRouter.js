@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     .find()
     .exec()
     .then(acronyms => {
-      res.status(200).json(acronyms);
+      res.status(200).json(acronyms.map(acronym => acronym.apiResponse()));
     })
     .catch(err => {
       console.error(err);
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
       categoryId: req.body.categoryId
     })
     .then(acronym => {
-      res.status(201).json(acronym);
+      res.status(201).json(acronym.apiResponse());
     })
     .catch(err => {
       console.error(err);
@@ -72,7 +72,7 @@ router.put('/:id', (req, res) => {
   Acronym
     .findByIdAndUpdate(req.params.id, {$set: updatesToAcronym}, {new: true})
     .exec()
-    .then(acronym => res.status(200).json(acronym))
+    .then(acronym => res.status(200).json(acronym.apiResponse()))
     .catch(err => {
       console.error(err);
       res.status(500).json({message: 'Internal server error'});
