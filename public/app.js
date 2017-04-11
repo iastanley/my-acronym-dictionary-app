@@ -1,3 +1,5 @@
+const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/';
+
 const MOCK_ACRONYM_DATA = [
     {
       "id": "1",
@@ -87,9 +89,22 @@ const MOCK_CATEGORY_LIST =
 let categories = [];
 
 //fake ajax call to get data
-function getAcronymData(callback) {
-  // (function(){callback(MOCK_DATA)})();
-  setTimeout(function(){callback(MOCK_ACRONYM_DATA)}, 100);
+// function getAcronymData(callback) {
+//   // (function(){callback(MOCK_DATA)})();
+//   setTimeout(function(){callback(MOCK_ACRONYM_DATA)}, 100);
+// }
+
+//optional search or category Id parameters
+function getAcronymData(callback, {search='', categoryId=''}={}) {
+  var settings = {
+    url: BASE_URL + 'acronyms',
+    data: {
+      searchQuery: search,
+      categoryQuery: categoryId
+    },
+    success: callback
+  }
+  $.getJSON(settings);
 }
 
 function getCategoryData() {
