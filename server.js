@@ -3,8 +3,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const app = express();
 
-const usersRouter = require('./usersRouter');
-const acronymsRouter = require('./acronymsRouter');
+const usersRouter = require('./routers/usersRouter');
+const acronymsRouter = require('./routers/acronymsRouter');
 const {PORT, DATABASE_URL} = require('./config.js');
 
 mongoose.Promise = global.Promise;
