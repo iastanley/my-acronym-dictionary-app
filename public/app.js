@@ -116,14 +116,15 @@ function displayCategories(data) {
         </div>
       </div>`;
   });
-  $('#categories').html(html);
+  $('#category-list').html(html);
 }
 
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
   let html = '';
   data.forEach(acronym => {
-    let color = getCategoryDataById(acronym.categoryId).color;
+    let {title, color} = getCategoryDataById(acronym.categoryId);
+
     html +=
       `<div class="col-lg-6">
         <div class="panel panel-default">
@@ -133,7 +134,7 @@ function displayAcronymEntries(data) {
           <div class="panel-body">
             <h4>${acronym.spellOut}</h4>
             <p>${acronym.definition || ''}</p>
-            <p>Category: ${acronym.category}</p>
+            <p>Category: ${title}</p>
           </div>
         </div>
       </div>`
@@ -152,10 +153,9 @@ function displayAcronymEntriesByCategory(categoryId) {
 
 function searchAcronyms(searchTerm) {
   return function(data) {
-    let regex = new RegExp(`(${searchTerm})`, 'g');
+    let regex = new RegExp(`(${searchTerm})`, 'i');
     let searchResults = data.filter(item => {
-      //return true if searchTerm is found in item.acronym or in item.spellOut
-      return regex.test(item.acronym) || regex.test(item.spellOut);
+      return (regex.test(item.acronym) || regex.test(item.spellOut));
     });
     displayAcronymEntries(searchResults);
 
@@ -176,7 +176,7 @@ function addSearchListener() {
 
 //filter acronyms by category
 function addCategoryListener() {
-  $('#categories').on('click', '.category', function() {
+  $('#category-list').on('click', '.category', function() {
     if ($(this).attr('id') == 'all-categories') {
       getAcronymData(displayAcronymEntries);
     } else {

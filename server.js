@@ -1,7 +1,20 @@
 const express = require('express');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
 const app = express();
 
+const usersRouter = require('./routers/usersRouter');
+const acronymsRouter = require('./routers/acronymsRouter');
+const categoryRouter = require('./routers/categoryRouter');
+const {PORT, DATABASE_URL} = require('./config.js');
+
+mongoose.Promise = global.Promise;
+
+app.use(morgan('common'));
 app.use(express.static('public'));
+
+app.use('/acronyms', acronymsRouter);
+app.use('/categories', categoryRouter);
 
 app.get('/main', (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
@@ -16,27 +29,34 @@ app.post('/users', (req, res) => {
 
 let server;
 
-function runServer() {
-  const port = process.env.PORT || 8080;
+function runServer(databaseUrl=DATABASE_URL, port=PORT) {
   return new Promise((resolve, reject) => {
-    server = app.listen(port, () => {
-      console.log(`Server started on port: ${port}`);
-      resolve(server);
-    }).on('error', err => {
-      reject(err);
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Server started on port: ${port}`);
+        resolve();
+      })
+      .on('error', err => {
+        reject(err);
+      });
     });
   });
 }
 
 function closeServer() {
-  return new Promise((resolve, reject) => {
-    console.log('Closing server');
-    server.close(err => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve();
+  return mongoose.disconnect().then(() => {
+    return new Promise((resolve, reject) => {
+      console.log('Closing server');
+      server.close(err => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
     });
   });
 }
