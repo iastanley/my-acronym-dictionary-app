@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 mongoose.Promise = global.Promise;
 
-//model for acronym entries
+//MODEL FOR ACRONYMS
 const acronymSchema = mongoose.Schema({
   userId: {type: String, required: true},
   acronym: {type: String, required: true},
@@ -27,15 +27,24 @@ acronymSchema.methods.apiResponse = function() {
 
 const Acronym = mongoose.model('Acronym', acronymSchema);
 
-//model for categories
+//MODEL FOR CATEGORIES
 const categorySchema = mongoose.Schema({
   title: String,
   color: String
 });
 
+//creating response method to avoid _id vs id issues
+categorySchema.methods.apiResponse = function() {
+  return {
+    id: this.id,
+    title: this.title,
+    color: this.color
+  }
+}
+
 const Category = mongoose.model('Category', categorySchema);
 
-//model for users
+//MODEL FOR USERS
 const userSchema = mongoose.Schema({
   userName: {
     type: String,

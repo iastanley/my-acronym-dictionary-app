@@ -5,6 +5,7 @@ const app = express();
 
 const usersRouter = require('./routers/usersRouter');
 const acronymsRouter = require('./routers/acronymsRouter');
+const categoryRouter = require('./routers/categoryRouter');
 const {PORT, DATABASE_URL} = require('./config.js');
 
 mongoose.Promise = global.Promise;
@@ -13,6 +14,7 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 
 app.use('/acronyms', acronymsRouter);
+app.use('/categories', categoryRouter);
 
 app.get('/main', (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
