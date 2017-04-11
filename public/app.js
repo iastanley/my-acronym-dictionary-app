@@ -88,15 +88,9 @@ const MOCK_CATEGORY_LIST =
 
 let categories = [];
 
-//fake ajax call to get data
-// function getAcronymData(callback) {
-//   // (function(){callback(MOCK_DATA)})();
-//   setTimeout(function(){callback(MOCK_ACRONYM_DATA)}, 100);
-// }
-
 //optional search or category Id parameters
 function getAcronymData(callback, {search='', categoryId=''}={}) {
-  var settings = {
+  const settings = {
     url: BASE_URL + 'acronyms',
     data: {
       searchQuery: search,
@@ -107,8 +101,16 @@ function getAcronymData(callback, {search='', categoryId=''}={}) {
   $.getJSON(settings);
 }
 
-function getCategoryData() {
-  categories = MOCK_CATEGORY_LIST;
+function getCategoryData(callback, {categoryTitle='', categoryId=''}={}) {
+  const settings = {
+    url: BASE_URL + 'categories',
+    data: {
+      title: categoryTitle,
+      id: categoryId
+    },
+    success: callback
+  }
+  $.getJSON(settings);
 }
 
 function getCategoryDataById(id) {
@@ -116,14 +118,15 @@ function getCategoryDataById(id) {
 }
 
 //display categories in sidebar
-function displayCategories(data) {
+function displayCategories(categoryData) {
+  storeLocalCategories(categoryData);
   let html =`<h3 class="text-center">Categories</h3>
             <div class="panel panel-default category" id="all-categories">
               <div class="panel-body">
                 All Categories
               </div>
             </div>`;
-  categories.forEach(category => {
+  categoryData.forEach(category => {
     html +=
       `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
         <div class="panel-body">
@@ -132,6 +135,10 @@ function displayCategories(data) {
       </div>`;
   });
   $('#category-list').html(html);
+}
+
+function storeLocalCategories(categoryData) {
+  categories = categoryData;
 }
 
 //display acronym entries in main search area
@@ -202,9 +209,22 @@ function addCategoryListener() {
   });
 }
 
+//add listener for add new entries
+function newEntryListener() {
+  $('#new-entry-form').on('submit', function(event) {
+    event.preventDefault();
+    let formInput = {
+      acronym: $('#acronym-input').val(),
+      spellOut: $('#spell-out-input').val(),
+      definition: $('#definition-input').val() || '',
+      categoryTitle: $('#category-input').val()
+    }
+    //make get request to Categories filtered by categoryTitle
+  });
+}
+
 $(function() {
-  getCategoryData();
-  displayCategories(categories);
+  getCategoryData(displayCategories);
   getAcronymData(displayAcronymEntries);
   addSearchListener();
   addCategoryListener();
