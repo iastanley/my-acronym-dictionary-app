@@ -118,7 +118,40 @@ describe('Acronym API', function() {
 
   describe('tests for PUT request', function() {
     it('should update acronym entry', function() {
+      const updateData = {
+        acronym: 'TEST',
+        spellOut: 'This Is A Test',
+        categoryId: '1234'
+      }
 
+      return Acronym
+        .findOne()
+        .exec()
+        .then(entry => {
+          updateData.id = entry.id;
+          return chai.request(app)
+            .put(`/acronyms/${updateData.id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.include.keys('acronym', 'spellOut', 'definition', 'categoryId');
+          res.body._id.should.equal(updateData.id);
+          res.body.acronym.should.equal(updateData.acronym);
+          res.body.spellOut.should.equal(updateData.spellOut);
+          res.body.categoryId.should.equal(updateData.categoryId);
+          Acronym
+            .findById(updateData.id)
+            .exec()
+            .then(entry => {
+              entry.id.should.equal(updateData.id);
+              entry.acronym.should.equal(updateData.acronym);
+              entry.spellOut.should.equal(updateData.spellOut);
+              entry.categoryId.should.equal(updateData.categoryId);
+            });
+        });
     }); //end of it block
   });//end of PUT tests
 
