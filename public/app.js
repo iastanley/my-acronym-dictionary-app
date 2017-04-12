@@ -1,99 +1,30 @@
-const MOCK_ACRONYM_DATA = [
-    {
-      "id": "1",
-      "user": "sam",
-      "acronym": "LOL",
-      "spellOut": "Laughing Out Loud",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "10"
-    },
-    {
-      "id": "2",
-      "user": "sam",
-      "acronym": "FOMO",
-      "spellOut": "Fear Of Missing Out",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "10"
-    },
-    {
-      "id": "3",
-      "user": "sam",
-      "acronym": "TTYL",
-      "spellOut": "Talk To You Later",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "10"
-    },
-    {
-      "id": "4",
-      "user": "sam",
-      "acronym": "JSON",
-      "spellOut": "JavaScript Object Notation",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "20"
-    },
-    {
-      "id": "5",
-      "user": "sam",
-      "acronym": "PLC",
-      "spellOut": "Programmable Logic Controller",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "20"
-    },
-    {
-      "id": "6",
-      "user": "sam",
-      "acronym": "PLC",
-      "spellOut": "Phospholipase C",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "30"
-    },
-    {
-      "id": "7",
-      "user": "sam",
-      "acronym": "MAPK",
-      "spellOut": "Mitogen Activated Protein Kinase",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "30"
-    },
-    {
-      "id": "8",
-      "user": "sam",
-      "acronym": "DRY",
-      "spellOut": "Don't Repeat Yourself",
-      "definition": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "categoryId": "20"
-    }
-  ];
-
-const MOCK_CATEGORY_LIST =
-  [
-    {
-      "id": "10",
-      "title": "Casual",
-      "color": "#ff00ff"
-    },
-    {
-      "id": "20",
-      "title": "Programming",
-      "color": "#00ffff"
-    },
-    {
-      "id": "30",
-      "title": "Biology",
-      "color": "#ffff00"
-    }
-  ];
+const BASE_URL = 'http://localhost:8080/';
 
 let categories = [];
 
-//fake ajax call to get data
-function getAcronymData(callback) {
-  // (function(){callback(MOCK_DATA)})();
-  setTimeout(function(){callback(MOCK_ACRONYM_DATA)}, 100);
+//optional search or category Id parameters
+function getAcronymData(callback, {search='', categoryId=''}={}) {
+  const settings = {
+    url: BASE_URL + 'acronyms',
+    data: {
+      searchQuery: search,
+      categoryQuery: categoryId
+    },
+    success: callback
+  }
+  $.getJSON(settings);
 }
 
-function getCategoryData() {
-  categories = MOCK_CATEGORY_LIST;
+function getCategoryData(callback, {categoryTitle='', categoryId=''}={}) {
+  const settings = {
+    url: BASE_URL + 'categories',
+    data: {
+      title: categoryTitle,
+      id: categoryId
+    },
+    success: callback
+  }
+  $.getJSON(settings);
 }
 
 function getCategoryDataById(id) {
@@ -101,14 +32,15 @@ function getCategoryDataById(id) {
 }
 
 //display categories in sidebar
-function displayCategories(data) {
+function displayCategories(categoryData) {
+  storeLocalCategories(categoryData);
   let html =`<h3 class="text-center">Categories</h3>
             <div class="panel panel-default category" id="all-categories">
               <div class="panel-body">
                 All Categories
               </div>
             </div>`;
-  categories.forEach(category => {
+  categoryData.forEach(category => {
     html +=
       `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
         <div class="panel-body">
@@ -117,6 +49,10 @@ function displayCategories(data) {
       </div>`;
   });
   $('#category-list').html(html);
+}
+
+function storeLocalCategories(categoryData) {
+  categories = categoryData;
 }
 
 //display acronym entries in main search area
@@ -187,10 +123,32 @@ function addCategoryListener() {
   });
 }
 
+//add listener for add new entries
+function newEntryListener() {
+  $('#new-entry-form').on('submit', function(event) {
+    // event.preventDefault();
+    let formInput = {
+      acronym: $('#acronym-input').val(),
+      spellOut: $('#spell-out-input').val(),
+      definition: $('#definition-input').val() || '',
+      categoryTitle: $('#category-input').val()
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: BASE_URL + 'acronyms',
+      processData: false,
+      contentType: 'application/json',
+      data: JSON.stringify(formInput),
+    });
+
+  });
+}
+
 $(function() {
-  getCategoryData();
-  displayCategories(categories);
+  getCategoryData(displayCategories);
   getAcronymData(displayAcronymEntries);
   addSearchListener();
   addCategoryListener();
+  newEntryListener();
 });

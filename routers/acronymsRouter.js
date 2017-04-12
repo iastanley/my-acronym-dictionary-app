@@ -7,7 +7,7 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const {Acronym} = require('../models');
+const {Acronym, Category} = require('../models');
 
 router.use(bodyParser.json());
 
@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   //validate required fields
-  const requiredFields = ['acronym', 'spellOut', 'categoryId'];
+  const requiredFields = ['acronym', 'spellOut', 'categoryTitle'];
   requiredFields.forEach(field => {
     if (!(field in req.body)) {
       const message = `Missing '${field}' in request body`;
@@ -36,21 +36,44 @@ router.post('/', (req, res) => {
     }
   });
 
-  Acronym
-    .create({
-      userId: req.body.userId,
-      acronym: req.body.acronym,
-      spellOut: req.body.spellOut,
-      definition: req.body.definition || '',
-      categoryId: req.body.categoryId
-    })
-    .then(acronym => {
-      res.status(201).json(acronym.apiResponse());
+  let newData = {
+    userId: req.body.userId || 'defaultUser',
+    acronym: req.body.acronym,
+    spellOut: req.body.spellOut,
+    definition: req.body.definition || '',
+  }
+
+  Category
+    .findOne({title: req.body.categoryTitle})
+    .exec()
+    .then(category => {
+      if (category) {
+        newData.categoryId = category.id;
+        Acronym
+          .create(newData)
+          .then(acronym => {
+            res.status(201).json(acronym.apiResponse());
+          });
+      } else {
+        Category
+          .create({
+            title: req.body.categoryTitle,
+            color: '#00ff00'
+          })
+          .then(category => {
+            newData.categoryId = category.id;
+            Acronym
+              .create(newData)
+              .then(acronym => {
+                res.status(201).json(acronym.apiResponse());
+              });
+          });
+      }
     })
     .catch(err => {
       console.error(err);
-      res.status(500).json({message: 'Internal server error'});
-    });
+      res.status(500).json({message: 'Internal server error at Acronym POST route'});
+    })
 });
 
 router.put('/:id', (req, res) => {

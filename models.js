@@ -44,6 +44,15 @@ categorySchema.methods.apiResponse = function() {
 
 const Category = mongoose.model('Category', categorySchema);
 
+//MODEL FOR COLORS
+const colorSchema = mongoose.Schema({
+  colorId: Number,
+  color: String,
+  used: {type: Boolean, default: false}
+});
+
+const Color = mongoose.model('Color', colorSchema);
+
 //MODEL FOR USERS
 const userSchema = mongoose.Schema({
   userName: {

@@ -12,8 +12,12 @@ const {Category} = require('../models');
 router.use(bodyParser.json());
 
 router.get('/', (req, res) => {
+  const filter = {};
+  if (req.query.title) {
+    filter.title = req.query.title;
+  }
   Category
-    .find()
+    .find(filter)
     .exec()
     .then(categories => {
       res.status(200).json(categories.map(category => category.apiResponse()));
