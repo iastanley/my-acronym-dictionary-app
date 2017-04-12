@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const {Acronym} = require('../models.js');
+const {Acronym, Category} = require('../models.js');
 const {app, runServer, closeServer} = require('../server.js');
 const {TEST_DATABASE_URL} = require('../config.js');
 
@@ -25,7 +25,7 @@ function seedAcronymData() {
   return Acronym.insertMany(seedData);
 }
 
-//create acronym entry
+//create acronym entry - for direct insertion in mongoDB db
 function createAcronymEntry() {
   return {
     userId: faker.name.firstName(),
@@ -33,6 +33,15 @@ function createAcronymEntry() {
     spellOut: faker.hacker.phrase(),
     definition: faker.lorem.sentence(),
     categoryId: faker.random.uuid()
+  }
+}
+
+function createPostData() {
+  return {
+    acronym: faker.hacker.abbreviation(),
+    spellOut: faker.hacker.phrase(),
+    definition: faker.lorem.sentence(),
+    categoryTitle: faker.lorem.word()
   }
 }
 
@@ -81,7 +90,6 @@ describe('Acronym API', function() {
             .findById(testEntry.id)
             .exec()
             .then(entry => {
-              // testEntry._id.should.equal(entry.id);
               testEntry.acronym.should.equal(entry.acronym);
               testEntry.spellOut.should.equal(entry.spellOut);
               testEntry.categoryId.should.equal(entry.categoryId);
@@ -92,7 +100,7 @@ describe('Acronym API', function() {
 
   describe('tests for POST request', function() {
     it('should create new acronym entry', function() {
-      const newEntry = createAcronymEntry();
+      const newEntry = createPostData();
       return chai.request(app)
         .post('/acronyms')
         .send(newEntry)
@@ -103,15 +111,23 @@ describe('Acronym API', function() {
           res.body.should.include.keys('userId', 'acronym', 'spellOut', 'categoryId');
           res.body.acronym.should.equal(newEntry.acronym);
           res.body.spellOut.should.equal(newEntry.spellOut);
-          res.body.categoryId.should.equal(newEntry.categoryId);
+          // res.body.categoryId.should.equal(newEntry.categoryId);
           Acronym
             .findById(res.body.id)
             .exec()
             .then(entry => {
               entry.acronym.should.equal(newEntry.acronym);
               entry.spellOut.should.equal(newEntry.spellOut);
-              entry.categoryId.should.equal(newEntry.categoryId);
+              // let categoryId = entry.categoryId;
+              // Category
+              //   .findById(categoryId)
+              //   .exec()
+              //   .then(category => {
+              //     console.log('category', category);
+              //     category.title.should.equal(newEntry.categoryTitle);
+              //   });
             });
+
         }); //end of outermost then block
     }); //end of it block
   });//end of POST tests

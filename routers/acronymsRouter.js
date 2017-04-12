@@ -26,7 +26,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
   //validate required fields
   const requiredFields = ['acronym', 'spellOut', 'categoryTitle'];
   requiredFields.forEach(field => {
