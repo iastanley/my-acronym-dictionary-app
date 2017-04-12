@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
   if (req.query.title) {
     filter.title = req.query.title;
   }
-  console.log(filter);
   Category
     .find(filter)
     .exec()

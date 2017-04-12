@@ -212,14 +212,22 @@ function addCategoryListener() {
 //add listener for add new entries
 function newEntryListener() {
   $('#new-entry-form').on('submit', function(event) {
-    event.preventDefault();
+    // event.preventDefault();
     let formInput = {
       acronym: $('#acronym-input').val(),
       spellOut: $('#spell-out-input').val(),
       definition: $('#definition-input').val() || '',
       categoryTitle: $('#category-input').val()
     }
-    //make get request to Categories filtered by categoryTitle
+
+    $.ajax({
+      type: 'POST',
+      url: BASE_URL + 'acronyms',
+      processData: false,
+      contentType: 'application/json',
+      data: JSON.stringify(formInput),
+    });
+
   });
 }
 
@@ -228,4 +236,5 @@ $(function() {
   getAcronymData(displayAcronymEntries);
   addSearchListener();
   addCategoryListener();
+  newEntryListener();
 });
