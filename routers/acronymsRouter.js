@@ -75,23 +75,6 @@ router.post('/', (req, res) => {
       console.error(err);
       res.status(500).json({message: 'Internal server error at Acronym POST route'});
     })
-
-  // Acronym
-  //   // .create({
-  //   //   userId: req.body.userId || 'defaultUser',
-  //   //   acronym: req.body.acronym,
-  //   //   spellOut: req.body.spellOut,
-  //   //   definition: req.body.definition || '',
-  //   //   categoryId: req.body.categoryId
-  //   // })
-  //   .create(newData)
-  //   .then(acronym => {
-  //     res.status(201).json(acronym.apiResponse());
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //     res.status(500).json({message: 'Internal server error'});
-  //   });
 });
 
 router.put('/:id', (req, res) => {

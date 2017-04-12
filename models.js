@@ -53,7 +53,6 @@ const colorSchema = mongoose.Schema({
 
 const Color = mongoose.model('Color', colorSchema);
 
-
 //MODEL FOR USERS
 const userSchema = mongoose.Schema({
   userName: {
