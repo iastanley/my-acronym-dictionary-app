@@ -129,7 +129,26 @@ router.delete('/:id', (req, res) => {
   Acronym
     .findByIdAndRemove(req.params.id)
     .exec()
-    .then(() => res.status(204).end())
+    .then(acronym => {
+      let categoryId = acronym.categoryId;
+      Acronym
+        .find({categoryId: categoryId})
+        .exec()
+        .then(acronyms => {
+          if (acronyms.length) {
+            res.status(204).end();
+          } else {
+            Category
+              .findByIdAndRemove(categoryId)
+              .exec()
+              .then(() => res.status(204).end())
+              .catch(err => {
+                console.error(err);
+                res.status(500).json({message: 'Internal server error'});
+              });
+          }
+        }); //end of second then block
+    })
     .catch(err => {
       console.error(err);
       res.status(500).json({message: 'Internal server error'});
