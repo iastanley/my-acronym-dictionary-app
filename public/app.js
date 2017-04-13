@@ -65,8 +65,18 @@ function displayAcronymEntries(data) {
     html +=
       `<div class="col-lg-6">
         <div class="panel panel-default">
-          <div class="panel-heading" style="background-color:${color}">
+          <div class="panel-heading clearfix" style="background-color:${color}">
             <h3 class="panel-title">${acronym.acronym}</h3>
+            <div class="dropdown">
+              <button class="option-btn dropdown-toggle" type="button" id="optionFor${acronym.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-option-vertical">
+                </span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${acronym.id}">
+                <li><a href="#" class="updateLink">Update</a></li>
+                <li><a href="#" class="deleteLink">Delete</a></li>
+              </ul>
+            </div>
           </div>
           <div class="panel-body">
             <h4>${acronym.spellOut}</h4>

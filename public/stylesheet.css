@@ -33,3 +33,23 @@
   height: 80vh;
   overflow-y: scroll;
 }
+
+.option-btn {
+  /*float: right;*/
+  background: none;
+  border: none;
+  vertical-align: middle;
+}
+
+.dropdown {
+  float: right;
+}
+
+.dropdown-menu {
+  min-width: 0;
+}
+
+.panel-title {
+  float: left;
+  line-height: 1.4;
+}
