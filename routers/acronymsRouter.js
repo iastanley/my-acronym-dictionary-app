@@ -111,7 +111,7 @@ router.put('/:id', (req, res) => {
   }
   //create object for PUT request
   const updatesToAcronym = {};
-  const updateFields = ['acronym', 'spellOut', 'definition', 'categoryId'];
+  const updateFields = ['acronym', 'spellOut', 'definition'];
   updateFields.forEach(field => {
     if (field in req.body) {
       updatesToAcronym[field] = req.body[field];

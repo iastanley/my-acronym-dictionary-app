@@ -72,7 +72,7 @@ function displayAcronymEntries(data) {
     let {title, color} = getCategoryDataById(acronym.categoryId);
 
     html +=
-      `<div class="col-lg-6">
+      `<div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading clearfix" style="background-color:${color}">
             <h3 class="panel-title">${acronym.acronym}</h3>
@@ -82,7 +82,15 @@ function displayAcronymEntries(data) {
                 </span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${acronym.id}">
-                <li><a href="#" class="updateLink">Update</a></li>
+                <li>
+                  <a href="#" class="updateLink" data-toggle="modal" data-target="#edit-entry"
+                  data-id="${acronym.id}"
+                  data-acronym="${acronym.acronym}"
+                  data-spellout="${acronym.spellOut}"
+                  data-definition="${acronym.definition || ''}">
+                    Edit
+                  </a>
+                </li>
                 <li><a href="#" class="deleteLink">Delete</a></li>
               </ul>
             </div>
@@ -96,7 +104,24 @@ function displayAcronymEntries(data) {
       </div>`
   });
   $('#acronym-entries').html(html);
+  //make modal dynamic
+  $('#edit-entry').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var acronym = button.data('acronym');
+    var spellOut = button.data('spellout');
+    var definition = button.data('definition');
+    $(this).find('.modal-title').text(`Edit ${acronym}`);
+    $(this).find('#edit-acronym').val(acronym);
+    $(this).find('#edit-spellout').val(spellOut);
+    $(this).find('#edit-definition').val(definition);
+    $(this).attr('app-data-id', id);
+    $('#edit-entry').on('hidden.bs.modal', function(event) {
+      $(this).removeAttr('app-data-id');
+    });
+  });
 }
+
 
 function displayAcronymEntriesByCategory(categoryId) {
   return function(data) {
@@ -160,8 +185,33 @@ function newEntryListener() {
       processData: false,
       contentType: 'application/json',
       data: JSON.stringify(formInput),
+      success: function() {
+        location.reload();
+      }
     });
+  });
+}
 
+function addEditListener() {
+  $('#edit-form').on('submit', function(event) {
+    let formInput = {
+      id: $('#edit-entry').attr('app-data-id'),
+      acronym: $('#edit-acronym').val(),
+      spellOut: $('#edit-spellout').val(),
+      definition: $('#edit-definition').val() || ''
+    }
+    console.log(formInput);
+
+    $.ajax({
+      type: 'PUT',
+      url: BASE_URL + `acronyms/${formInput.id}`,
+      processData: false,
+      contentType: 'application/json',
+      data: JSON.stringify(formInput),
+      success: function() {
+        location.reload();
+      }
+    });
   });
 }
 
@@ -171,4 +221,5 @@ $(function() {
   addSearchListener();
   addCategoryListener();
   newEntryListener();
+  addEditListener();
 });
