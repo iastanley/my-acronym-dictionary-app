@@ -38,14 +38,23 @@ function displayCategories(categoryData) {
   let html =`<h3 class="text-center">Categories</h3>
             <div class="panel panel-default category" id="all-categories">
               <div class="panel-body">
-                All Categories
+                <h3 class="panel-title">All Categories</h3>
               </div>
             </div>`;
   categoryData.forEach(category => {
     html +=
       `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
         <div class="panel-body">
-        ${category.title}
+          <h3 class="panel-title">${category.title}</h3>
+          <div class="dropdown">
+            <button class="option-btn dropdown-toggle" type="button" id="optionFor${category.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-option-vertical">
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${category.id}">
+              <li><a href="#" class="deleteLink">Delete</a></li>
+            </ul>
+          </div>
         </div>
       </div>`;
   });
