@@ -68,7 +68,10 @@ router.post('/', (req, res) => {
               hexCode = colors[randomIndex].hexCode;
               //used colors are no longer available for new Categories
               Color
-                .findByIdAndUpdate(colors[randomIndex].id, {$set: {used: 'true'}})
+                .findByIdAndUpdate(
+                  colors[randomIndex].id,
+                  {$set: {used: 'true'}}
+                )
                 .exec();
               //create a new category using the hexCode from randomly selected color
               Category
@@ -141,7 +144,17 @@ router.delete('/:id', (req, res) => {
             Category
               .findByIdAndRemove(categoryId)
               .exec()
-              .then(() => res.status(204).end())
+              .then(category => {
+                Color
+                  .findOneAndUpdate(
+                    {hexCode: category.color},
+                    {$set: {used: 'false'}}
+                  )
+                  .exec()
+                  .then(() => {
+                    res.status(204).end()
+                  });
+              })
               .catch(err => {
                 console.error(err);
                 res.status(500).json({message: 'Internal server error'});

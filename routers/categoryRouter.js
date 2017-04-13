@@ -7,7 +7,7 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const {Category} = require('../models');
+const {Acronym, Category} = require('../models');
 
 router.use(bodyParser.json());
 
@@ -61,6 +61,26 @@ router.post('/', (req, res) => {
     })
     .catch(err => {
       console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  const deletedId = req.params.id;
+  Category
+    .findByIdAndRemove(deletedId)
+    .exec()
+    .then(() => {
+      return Acronym
+        .find({categoryId: deletedId})
+        .remove()
+        .exec();
+    })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      console.error('Internal server error at Category router: DELETE request', err);
       res.status(500).json({message: 'Internal server error'});
     });
 });
