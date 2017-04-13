@@ -7,7 +7,7 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const {Acronym, Category} = require('../models');
+const {Acronym, Category, Color} = require('../models');
 
 router.use(bodyParser.json());
 
@@ -55,20 +55,43 @@ router.post('/', (req, res) => {
             res.status(201).json(acronym.apiResponse());
           });
       } else {
-        Category
-          .create({
-            title: req.body.categoryTitle,
-            color: '#00ff00'
-          })
-          .then(category => {
-            newData.categoryId = category.id;
-            Acronym
-              .create(newData)
-              .then(acronym => {
-                res.status(201).json(acronym.apiResponse());
-              });
-          });
-      }
+        //randomly select one of the available colors
+        let hexCode = '';
+        Color
+          .find({used: 'false'})
+          .exec()
+          .then(colors => {
+            if (!colors.length) {
+              res.status(400).json({message: 'Category limit reached'});
+            } else {
+              let randomIndex = Math.floor(Math.random() * colors.length);
+              hexCode = colors[randomIndex].hexCode;
+              //used colors are no longer available for new Categories
+              Color
+                .findByIdAndUpdate(colors[randomIndex].id, {$set: {used: 'true'}})
+                .exec();
+              //create a new category using the hexCode from randomly selected color
+              Category
+                .create({
+                  title: req.body.categoryTitle,
+                  color: hexCode
+                })
+                .then(category => {
+                  newData.categoryId = category.id;
+                  //create acronym using newly created Category's id
+                  Acronym
+                    .create(newData)
+                    .then(acronym => {
+                      res.status(201).json(acronym.apiResponse());
+                    });
+                })
+                .catch(err => {
+                  console.error(err);
+                  res.status(500).json({message: 'Internal server error at Acronym Router - POST'});
+                });
+            }
+          });//end of first Color.then block
+      } //end of else block
     })
     .catch(err => {
       console.error(err);

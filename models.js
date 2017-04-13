@@ -46,9 +46,8 @@ const Category = mongoose.model('Category', categorySchema);
 
 //MODEL FOR COLORS
 const colorSchema = mongoose.Schema({
-  colorId: Number,
-  color: String,
-  used: {type: Boolean, default: false}
+  hexCode: String,
+  used: String
 });
 
 const Color = mongoose.model('Color', colorSchema);
@@ -83,4 +82,4 @@ userSchema.statics.hashPassword = function(password) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = {Acronym, Category, User};
+module.exports = {Acronym, Category, Color, User};
