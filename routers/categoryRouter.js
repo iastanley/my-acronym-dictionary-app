@@ -7,7 +7,7 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const {Acronym, Category} = require('../models');
+const {Acronym, Category, Color} = require('../models');
 
 router.use(bodyParser.json());
 
@@ -70,15 +70,21 @@ router.delete('/:id', (req, res) => {
   Category
     .findByIdAndRemove(deletedId)
     .exec()
+    .then(category => {
+      return Color
+        .findOneAndUpdate(
+          {hexCode: category.color},
+          {$set: {used: 'false'}}
+        )
+        .exec();
+    })
     .then(() => {
       return Acronym
         .find({categoryId: deletedId})
         .remove()
         .exec();
     })
-    .then(() => {
-      res.status(204).end();
-    })
+    .then(() => res.status(204).end())
     .catch(err => {
       console.error('Internal server error at Category router: DELETE request', err);
       res.status(500).json({message: 'Internal server error'});
