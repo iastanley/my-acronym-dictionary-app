@@ -261,6 +261,13 @@ function addDeleteListener() {
       deleteUrl += `categories/${id}`;
     }
     console.log(deleteUrl);
+    $.ajax({
+      type: 'DELETE',
+      url: deleteUrl,
+      success: function() {
+        location.reload();
+      }
+    });
   });
 }
 
