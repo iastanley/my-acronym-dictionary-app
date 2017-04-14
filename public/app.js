@@ -52,13 +52,21 @@ function displayCategories(categoryData) {
               </span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${category.id}">
-              <li><a href="#" class="deleteLink">Delete</a></li>
+              <li>
+                <a href="#" class="deleteLink" data-toggle="modal"
+                data-target="#delete-confirm"
+                data-id="${category.id}"
+                data-type="category">
+                  Delete
+                </a>
+              </li>
             </ul>
           </div>
         </div>
       </div>`;
   });
   $('#category-list').html(html);
+  makeDeleteModalDynamic();
 }
 
 function storeLocalCategories(categoryData) {
@@ -84,6 +92,7 @@ function displayAcronymEntries(data) {
               <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${acronym.id}">
                 <li>
                   <a href="#" class="updateLink" data-toggle="modal" data-target="#edit-entry"
+                  data-type="acronym"
                   data-id="${acronym.id}"
                   data-acronym="${acronym.acronym}"
                   data-spellout="${acronym.spellOut}"
@@ -91,7 +100,14 @@ function displayAcronymEntries(data) {
                     Edit
                   </a>
                 </li>
-                <li><a href="#" class="deleteLink">Delete</a></li>
+                <li>
+                  <a href="#" class="deleteLink" data-toggle="modal"
+                  data-target="#delete-confirm"
+                  data-type="acronym"
+                  data-id="${acronym.id}">
+                    Delete
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -104,6 +120,10 @@ function displayAcronymEntries(data) {
       </div>`
   });
   $('#acronym-entries').html(html);
+  makeEditModalDynamic();
+}
+
+function makeEditModalDynamic() {
   //make modal dynamic
   $('#edit-entry').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget);
@@ -122,6 +142,21 @@ function displayAcronymEntries(data) {
   });
 }
 
+function makeDeleteModalDynamic() {
+  //make delete modal dynamic
+  $('#delete-confirm').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var type = button.data('type');
+    $(this).attr(`${type}-id`, id);
+    if (type === 'category') {
+      $(this).find('#category-delete-text').text('Deleting a category also deletes all associated acronyms!');
+    }
+    $('#delete-confirm').on('hidden.bs.modal', function(event) {
+      $(this).removeAttr(`${type}-id`);
+    });
+  });
+}
 
 function displayAcronymEntriesByCategory(categoryId) {
   return function(data) {
@@ -215,6 +250,20 @@ function addEditListener() {
   });
 }
 
+function addDeleteListener() {
+  $('#delete-form').on('submit', function() {
+    let deleteUrl = BASE_URL;
+    if ($('#delete-confirm').attr('acronym-id')) {
+      let id = $('#delete-confirm').attr('acronym-id');
+      deleteUrl += `acronyms/${id}`;
+    } else if ($('#delete-confirm').attr('category-id')) {
+      let id = $('#delete-confirm').attr('category-id');
+      deleteUrl += `categories/${id}`;
+    }
+    console.log(deleteUrl);
+  });
+}
+
 $(function() {
   getCategoryData(displayCategories);
   getAcronymData(displayAcronymEntries);
@@ -222,4 +271,5 @@ $(function() {
   addCategoryListener();
   newEntryListener();
   addEditListener();
+  addDeleteListener();
 });
