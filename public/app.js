@@ -183,10 +183,14 @@ function addCategoryListener() {
     if ($(this).attr('id') == 'all-categories') {
       getAcronymData(displayAcronymEntries);
       $(this).addClass('selectedCategory');
+      //collapses categories list in mobile only
+      $('#mobile-category-collapse').collapse('hide');
     } else {
       const categoryId = $(this).attr('id');
       getAcronymData(displayAcronymEntriesByCategory(categoryId));
       $(this).addClass('selectedCategory');
+      //collapses categories list in mobile only
+      $('#mobile-category-collapse').collapse('hide');
     }
 
   });

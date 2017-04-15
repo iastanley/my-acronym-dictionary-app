@@ -12,10 +12,10 @@
   </head>
   <body>
     <!-- header -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="../index.html">
-          <span>MAD</span> = My Acronym Dictionary
+          MAD <span>= My Acronym Dictionary</span>
         </a>
         <button type="button" data-toggle="modal" data-target="#add-new-entry" class="btn btn-custom navbar-btn navbar-right">Add New Entry</button>
       </div>
@@ -60,15 +60,23 @@
       <div class="row">
 
         <!-- Category Sidebar -->
-        <div class="col-md-3 col-sm-4" id="category-sidebar">
-          <h3 class="text-center">Categories</h3>
-          <div class="panel panel-default category selectedCategory" id="all-categories">
-            <div class="panel-body">
-              <h3 class="panel-title">All Categories</h3>
+        <div class="col-md-3 col-sm-4 clearfix" id="category-sidebar">
+          <h3 class="text-center category-header">Categories</h3>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mobile-category-collapse" aria-expanded="false" aria-controls="mobile-category-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse" id="mobile-category-collapse">
+            <div class="panel panel-default category selectedCategory" id="all-categories">
+              <div class="panel-body">
+                <h3 class="panel-title">All Categories</h3>
+              </div>
             </div>
-          </div>
-          <div class="overflow-scroll" id="category-list">
-            <!-- Category List Will Go Here -->
+            <div class="overflow-scroll" id="category-list">
+              <!-- Category List Will Go Here -->
+            </div>
           </div>
         </div> <!--end of categories column-->
 

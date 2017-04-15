@@ -1,5 +1,10 @@
-.index-page h1, .index-page .button-section {
-  margin: 100px auto;
+body {
+  margin-top: 50px;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .navbar {
@@ -14,9 +19,12 @@
   color: #cc2634;
 }
 
+.navbar-brand {
+  font-size: 2em;
+}
+
 .navbar-brand span {
-  font-size: 1.5em;
-  vertical-align: middle;
+  display: none;
 }
 
 .navbar-default .navbar-brand:hover {
@@ -46,19 +54,6 @@
   cursor: pointer;
 }
 
-.main-search {
-  border-left: 2px solid #ddd;
-}
-
-.search-results {
-  margin-top: 40px;
-}
-
-.overflow-scroll {
-  height: 75vh;
-  overflow-y: scroll;
-}
-
 .option-btn {
   /*float: right;*/
   background: none;
@@ -73,6 +68,10 @@
 
 .category .option-btn:hover {
   color: rgba(0,0,0,1);
+}
+
+.search-results {
+  margin-top: 40px;
 }
 
 .dropdown {
@@ -97,6 +96,56 @@
   border: 2px solid black;
 }
 
+.category-header {
+  display: none;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: black;
+}
+
+.navbar-toggle {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 10px 0 0 0;
+}
+
 #all-categories {
   background-color: #F8F8F8;
+}
+
+#mobile-category-collapse {
+  margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+  .index-page h1, .index-page .button-section {
+    margin: 100px auto;
+  }
+
+  .navbar-brand span {
+    display: inline-block;
+  }
+
+  .main-search {
+    border-left: 2px solid #ddd;
+  }
+
+  .overflow-scroll {
+    height: 75vh;
+    overflow-y: scroll;
+  }
+
+  .category-header {
+    display: block;
+  }
+
+  .navbar-toggle {
+    display: none;
+  }
+
+  #mobile-category-collapse {
+    display: block;
+    margin-top: 0;
+  }
 }
