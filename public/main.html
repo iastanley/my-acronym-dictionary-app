@@ -17,7 +17,7 @@
         <a class="navbar-brand" href="../index.html">
           <span>MAD</span> = My Acronym Dictionary
         </a>
-        <button type="button" data-toggle="modal" data-target="#add-new-entry" class="btn btn-primary navbar-btn navbar-right">Add New Entry</button>
+        <button type="button" data-toggle="modal" data-target="#add-new-entry" class="btn btn-custom navbar-btn navbar-right">Add New Entry</button>
       </div>
     </nav>
 
@@ -60,8 +60,16 @@
       <div class="row">
 
         <!-- Category Sidebar -->
-        <div class="col-md-3 col-sm-4 category-list" id="category-list">
-          <!-- Category List Will Go Here -->
+        <div class="col-md-3 col-sm-4" id="category-sidebar">
+          <h3 class="text-center">Categories</h3>
+          <div class="panel panel-default category selectedCategory" id="all-categories">
+            <div class="panel-body">
+              <h3 class="panel-title">All Categories</h3>
+            </div>
+          </div>
+          <div class="overflow-scroll" id="category-list">
+            <!-- Category List Will Go Here -->
+          </div>
         </div> <!--end of categories column-->
 
         <!-- Main Search and Results Section -->
@@ -75,7 +83,7 @@
               </span>
             </div><!-- /input-group -->
           </form>
-          <div class="row search-results" id="acronym-entries">
+          <div class="row search-results overflow-scroll" id="acronym-entries">
             <!-- Acronym Entries Will Go Here -->
           </div><!--end of nested row-->
         </div> <!--end of main search column-->

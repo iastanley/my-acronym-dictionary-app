@@ -35,33 +35,19 @@ function getCategoryDataById(id) {
 //display categories in sidebar
 function displayCategories(categoryData) {
   storeLocalCategories(categoryData);
-  let html =`<h3 class="text-center">Categories</h3>
-            <div class="panel panel-default category" id="all-categories">
-              <div class="panel-body">
-                <h3 class="panel-title">All Categories</h3>
-              </div>
-            </div>`;
+  let html = '';
   categoryData.forEach(category => {
     html +=
       `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
         <div class="panel-body">
           <h3 class="panel-title">${category.title}</h3>
-          <div class="dropdown">
-            <button class="option-btn dropdown-toggle" type="button" id="optionFor${category.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-option-vertical">
-              </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${category.id}">
-              <li>
-                <a href="#" class="deleteLink" data-toggle="modal"
-                data-target="#delete-confirm"
-                data-id="${category.id}"
-                data-type="category">
-                  Delete
-                </a>
-              </li>
-            </ul>
-          </div>
+          <button class="option-btn" type="button" data-toggle="modal"
+          data-target="#delete-confirm"
+          data-id="${category.id}"
+          data-type="category">
+            <span class="glyphicon glyphicon-remove">
+            </span>
+          </button>
         </div>
       </div>`;
   });
@@ -192,12 +178,15 @@ function addSearchListener() {
 
 //filter acronyms by category
 function addCategoryListener() {
-  $('#category-list').on('click', '.category', function() {
+  $('#category-sidebar').on('click', '.category', function() {
+    $('.category').removeClass('selectedCategory');
     if ($(this).attr('id') == 'all-categories') {
       getAcronymData(displayAcronymEntries);
+      $(this).addClass('selectedCategory');
     } else {
       const categoryId = $(this).attr('id');
       getAcronymData(displayAcronymEntriesByCategory(categoryId));
+      $(this).addClass('selectedCategory');
     }
 
   });

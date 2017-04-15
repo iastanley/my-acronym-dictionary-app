@@ -142,7 +142,7 @@ describe('Acronym API', function() {
               entry.spellOut.should.equal(newEntry.spellOut);
               entry.categoryId.should.not.be.null;
               entry.categoryId.should.not.be.undefined;
-              let categoryId = entry.categoryId;
+              // let categoryId = entry.categoryId;
               // Category
               //   .findById(categoryId)
               //   .exec()
