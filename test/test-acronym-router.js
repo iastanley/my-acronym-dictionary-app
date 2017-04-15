@@ -6,33 +6,56 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const {Acronym, Category} = require('../models.js');
+const {Acronym, Category, Color} = require('../models.js');
 const {app, runServer, closeServer} = require('../server.js');
 const {TEST_DATABASE_URL} = require('../config.js');
+const colorData = require('../color-data.json');
 
 const should = chai.should();
 chai.use(chaiHttp);
 
 //HELPER FUNCTIONS FOR CREATING TEST DATABASE
-
-//seed test-mad-app database
 function seedAcronymData() {
   const seedData = [];
-  //loop to create documents that are pushed to seedData
-  for (let i = 0; i < 10; i++) {
-    seedData.push(createAcronymEntry());
-  }
-  return Acronym.insertMany(seedData);
+  let categoryId;
+  return Color
+    .insertMany(colorData)
+    .then(() => {
+      // seedAcronymData();
+      return Color
+        .findOne()
+        .exec()
+        .then(color => {
+          let newCategoryData = {
+            title: faker.lorem.word(),
+            color: color.hexCode
+          };
+          Color
+            .findByIdAndUpdate(color.id, {$set: {used: 'true'}})
+            .exec();
+          return Category.create(newCategoryData);
+        })
+        .then(category => {
+          categoryId = category.id;
+          for (let i = 0; i < 10; i++) {
+            let newEntry = createAcronymEntry();
+            newEntry.categoryId = categoryId;
+            seedData.push(newEntry);
+          }
+          //it is critical to return this statement rather than just calling it
+          return Acronym.insertMany(seedData);
+        });
+    });
 }
 
 //create acronym entry - for direct insertion in mongoDB db
 function createAcronymEntry() {
+
   return {
     userId: faker.name.firstName(),
     acronym: faker.hacker.abbreviation(),
     spellOut: faker.hacker.phrase(),
-    definition: faker.lorem.sentence(),
-    categoryId: faker.random.uuid()
+    definition: faker.lorem.sentence()
   }
 }
 
@@ -108,22 +131,22 @@ describe('Acronym API', function() {
           res.should.have.status(201);
           res.should.be.json;
           res.body.should.be.a('object');
-          res.body.should.include.keys('userId', 'acronym', 'spellOut', 'categoryId');
+          res.body.should.include.keys('acronym', 'spellOut', 'categoryId');
           res.body.acronym.should.equal(newEntry.acronym);
           res.body.spellOut.should.equal(newEntry.spellOut);
-          // res.body.categoryId.should.equal(newEntry.categoryId);
           Acronym
             .findById(res.body.id)
             .exec()
             .then(entry => {
               entry.acronym.should.equal(newEntry.acronym);
               entry.spellOut.should.equal(newEntry.spellOut);
+              entry.categoryId.should.not.be.null;
+              entry.categoryId.should.not.be.undefined;
               // let categoryId = entry.categoryId;
               // Category
               //   .findById(categoryId)
               //   .exec()
               //   .then(category => {
-              //     console.log('category', category);
               //     category.title.should.equal(newEntry.categoryTitle);
               //   });
             });
@@ -136,10 +159,8 @@ describe('Acronym API', function() {
     it('should update acronym entry', function() {
       const updateData = {
         acronym: 'TEST',
-        spellOut: 'This Is A Test',
-        categoryId: '1234'
+        spellOut: 'This Is A Test'
       }
-
       return Acronym
         .findOne()
         .exec()
@@ -157,7 +178,6 @@ describe('Acronym API', function() {
           res.body.id.should.equal(updateData.id);
           res.body.acronym.should.equal(updateData.acronym);
           res.body.spellOut.should.equal(updateData.spellOut);
-          res.body.categoryId.should.equal(updateData.categoryId);
           Acronym
             .findById(updateData.id)
             .exec()
@@ -165,7 +185,6 @@ describe('Acronym API', function() {
               entry.id.should.equal(updateData.id);
               entry.acronym.should.equal(updateData.acronym);
               entry.spellOut.should.equal(updateData.spellOut);
-              entry.categoryId.should.equal(updateData.categoryId);
             });
         });
     }); //end of it block

@@ -12,12 +12,12 @@
   </head>
   <body>
     <!-- header -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="../index.html">
-          <span>MAD</span> = My Acronym Dictionary
+          MAD <span>= My Acronym Dictionary</span>
         </a>
-        <button type="button" data-toggle="modal" data-target="#add-new-entry" class="btn btn-primary navbar-btn navbar-right">Add New Entry</button>
+        <button type="button" data-toggle="modal" data-target="#add-new-entry" class="btn btn-custom navbar-btn navbar-right">Add New Entry</button>
       </div>
     </nav>
 
@@ -60,8 +60,24 @@
       <div class="row">
 
         <!-- Category Sidebar -->
-        <div class="col-md-3 col-sm-4 category-list" id="category-list">
-          <!-- Category List Will Go Here -->
+        <div class="col-md-3 col-sm-4 clearfix" id="category-sidebar">
+          <h3 class="text-center category-header">Categories</h3>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mobile-category-collapse" aria-expanded="false" aria-controls="mobile-category-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse" id="mobile-category-collapse">
+            <div class="panel panel-default category selectedCategory" id="all-categories">
+              <div class="panel-body">
+                <h3 class="panel-title">All Categories</h3>
+              </div>
+            </div>
+            <div class="overflow-scroll" id="category-list">
+              <!-- Category List Will Go Here -->
+            </div>
+          </div>
         </div> <!--end of categories column-->
 
         <!-- Main Search and Results Section -->
@@ -75,13 +91,67 @@
               </span>
             </div><!-- /input-group -->
           </form>
-          <div class="row search-results" id="acronym-entries">
+          <div class="row search-results overflow-scroll" id="acronym-entries">
             <!-- Acronym Entries Will Go Here -->
           </div><!--end of nested row-->
         </div> <!--end of main search column-->
       </div><!--end of row-->
     </div><!--end of container-->
 
+    <!-- Modal for editing acronym entry -->
+    <div class="modal fade" id="edit-entry" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center">Edit</h4>
+          </div>
+          <form id="edit-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="acronym-input">Acronym</label>
+                <input type="text" class="form-control" id="edit-acronym" required>
+              </div>
+              <div class="form-group">
+                <label for="spell-out-input">Spelled Out</label>
+                <input type="text" class="form-control" id="edit-spellout" required>
+              </div>
+              <div class="form-group">
+                <label for="definition-input">Definition (optional)</label>
+                <input type="text" class="form-control" id="edit-definition">
+              </div>
+              <!-- <div class="form-group">
+                <label for="category-input">Category</label>
+                <input type="text" class="form-control" id="category-input">
+              </div> -->
+            </div><!--end of modal body-->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal for confirming delete request -->
+    <div class="modal fade" id="delete-confirm" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center">Are you sure?</h4>
+          </div>
+          <div class="modal-body text-center">
+            <p id="category-delete-text"></p>
+            <form id="delete-form">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!-- jQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

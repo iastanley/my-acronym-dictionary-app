@@ -1,14 +1,34 @@
-.index-page h1, .index-page .button-section {
-  margin: 100px auto;
+body {
+  margin-top: 50px;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .navbar {
   margin-bottom: 0;
 }
 
+.navbar-default {
+  background-color: #ddd;
+}
+
+.navbar-default .navbar-brand {
+  color: #cc2634;
+}
+
+.navbar-brand {
+  font-size: 2em;
+}
+
 .navbar-brand span {
-  font-size: 1.5em;
-  vertical-align: middle;
+  display: none;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: #A32634;
 }
 
 .navbar>.container-fluid .navbar-brand, .navbar>.container-fluid .navbar-right {
@@ -20,16 +40,112 @@
   margin-right: -15px;
 }
 
+.btn-custom {
+  color: #fff;
+  background-color: #cc2634
+}
+
+.btn-custom:hover {
+  color: #fff;
+  background-color: #A32634
+}
+
 .category {
   cursor: pointer;
 }
 
-.main-search {
-  border-left: 1px solid #e7e7e7;
+.option-btn {
+  /*float: right;*/
+  background: none;
+  border: none;
+  vertical-align: middle;
+}
+
+.category .option-btn {
+  color: rgba(0,0,0,0.3);
+  float: right;
+}
+
+.category .option-btn:hover {
+  color: rgba(0,0,0,1);
 }
 
 .search-results {
-  margin-top: 30px;
-  height: 80vh;
+  margin-top: 40px;
+}
+
+.dropdown {
+  float: right;
+}
+
+.dropdown-menu {
+  min-width: 0;
+}
+
+.panel-title {
+  float: left;
+  line-height: 1.4;
+}
+
+.search-results .panel-body {
+  height: 150px;
   overflow-y: scroll;
+}
+
+.selectedCategory {
+  border: 2px solid black;
+}
+
+.category-header {
+  display: none;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: black;
+}
+
+.navbar-toggle {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 10px 0 0 0;
+}
+
+#all-categories {
+  background-color: #F8F8F8;
+}
+
+#mobile-category-collapse {
+  margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+  .index-page h1, .index-page .button-section {
+    margin: 100px auto;
+  }
+
+  .navbar-brand span {
+    display: inline-block;
+  }
+
+  .main-search {
+    border-left: 2px solid #ddd;
+  }
+
+  .overflow-scroll {
+    height: 75vh;
+    overflow-y: scroll;
+  }
+
+  .category-header {
+    display: block;
+  }
+
+  .navbar-toggle {
+    display: none;
+  }
+
+  #mobile-category-collapse {
+    display: block;
+    margin-top: 0;
+  }
 }
