@@ -22,6 +22,7 @@ app.use(express.static('public'));
 //   next();
 // });
 
+
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
 app.use('/colors', colorRouter);
