@@ -10,7 +10,7 @@ const acronymSchema = mongoose.Schema({
   acronym: {type: String, required: true},
   spellOut: {type: String, required: true},
   definition: String,
-  categoryId: {type: String}
+  categoryId: String
 });
 
 //creating response method to avoid _id vs id issues

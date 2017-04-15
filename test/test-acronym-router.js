@@ -42,7 +42,8 @@ function seedAcronymData() {
             newEntry.categoryId = categoryId;
             seedData.push(newEntry);
           }
-          Acronym.insertMany(seedData);
+          //it is critical to return this statement rather than just calling it
+          return Acronym.insertMany(seedData);
         });
     });
 }
@@ -128,91 +129,87 @@ describe('Acronym API', function() {
         .send(newEntry)
         .then(res => {
           res.should.have.status(201);
-          // res.should.be.json;
-          // res.body.should.be.a('object');
-          // res.body.should.include.keys('acronym', 'spellOut', 'categoryTitle');
-          // res.body.acronym.should.equal(newEntry.acronym);
-          // res.body.spellOut.should.equal(newEntry.spellOut);
-          // // res.body.categoryId.should.equal(newEntry.categoryId);
-          // Acronym
-          //   .findById(res.body.id)
-          //   .exec()
-          //   .then(entry => {
-          //     entry.acronym.should.equal(newEntry.acronym);
-          //     entry.spellOut.should.equal(newEntry.spellOut);
-              // let categoryId = entry.categoryId;
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.include.keys('acronym', 'spellOut', 'categoryId');
+          res.body.acronym.should.equal(newEntry.acronym);
+          res.body.spellOut.should.equal(newEntry.spellOut);
+          Acronym
+            .findById(res.body.id)
+            .exec()
+            .then(entry => {
+              entry.acronym.should.equal(newEntry.acronym);
+              entry.spellOut.should.equal(newEntry.spellOut);
+              entry.categoryId.should.not.be.null;
+              entry.categoryId.should.not.be.undefined;
+              let categoryId = entry.categoryId;
               // Category
               //   .findById(categoryId)
               //   .exec()
               //   .then(category => {
-              //     console.log('category', category);
               //     category.title.should.equal(newEntry.categoryTitle);
               //   });
-            // });
+            });
 
         }); //end of outermost then block
     }); //end of it block
   });//end of POST tests
 
-  // describe('tests for PUT request', function() {
-  //   it('should update acronym entry', function() {
-  //     const updateData = {
-  //       acronym: 'TEST',
-  //       spellOut: 'This Is A Test',
-  //       categoryId: '1234'
-  //     }
-  //
-  //     return Acronym
-  //       .findOne()
-  //       .exec()
-  //       .then(entry => {
-  //         updateData.id = entry.id;
-  //         return chai.request(app)
-  //           .put(`/acronyms/${updateData.id}`)
-  //           .send(updateData);
-  //       })
-  //       .then(res => {
-  //         res.should.have.status(200);
-  //         res.should.be.json;
-  //         res.body.should.be.a('object');
-  //         res.body.should.include.keys('acronym', 'spellOut', 'definition', 'categoryId');
-  //         res.body.id.should.equal(updateData.id);
-  //         res.body.acronym.should.equal(updateData.acronym);
-  //         res.body.spellOut.should.equal(updateData.spellOut);
-  //         res.body.categoryId.should.equal(updateData.categoryId);
-  //         Acronym
-  //           .findById(updateData.id)
-  //           .exec()
-  //           .then(entry => {
-  //             entry.id.should.equal(updateData.id);
-  //             entry.acronym.should.equal(updateData.acronym);
-  //             entry.spellOut.should.equal(updateData.spellOut);
-  //             entry.categoryId.should.equal(updateData.categoryId);
-  //           });
-  //       });
-  //   }); //end of it block
-  // });//end of PUT tests
+  describe('tests for PUT request', function() {
+    it('should update acronym entry', function() {
+      const updateData = {
+        acronym: 'TEST',
+        spellOut: 'This Is A Test'
+      }
+      return Acronym
+        .findOne()
+        .exec()
+        .then(entry => {
+          updateData.id = entry.id;
+          return chai.request(app)
+            .put(`/acronyms/${updateData.id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.include.keys('acronym', 'spellOut', 'definition', 'categoryId');
+          res.body.id.should.equal(updateData.id);
+          res.body.acronym.should.equal(updateData.acronym);
+          res.body.spellOut.should.equal(updateData.spellOut);
+          Acronym
+            .findById(updateData.id)
+            .exec()
+            .then(entry => {
+              entry.id.should.equal(updateData.id);
+              entry.acronym.should.equal(updateData.acronym);
+              entry.spellOut.should.equal(updateData.spellOut);
+            });
+        });
+    }); //end of it block
+  });//end of PUT tests
 
-  // describe('tests for DELETE request', function() {
-  //   it('should delete acronym entry', function() {
-  //     let deletedEntry;
-  //     return Acronym
-  //       .findOne()
-  //       .exec()
-  //       .then(entry => {
-  //         deletedEntry = entry;
-  //         return chai.request(app)
-  //           .delete(`/acronyms/${deletedEntry.id}`)
-  //       })
-  //       .then(res => {
-  //         res.should.have.status(204);
-  //         Acronym
-  //           .findById(deletedEntry.id)
-  //           .exec()
-  //           .then(entry => {
-  //             should.not.exist(entry);
-  //           });
-  //       });
-  //   }); //end of it block
-  // })//end of DELETE test
+  describe('tests for DELETE request', function() {
+    it('should delete acronym entry', function() {
+      let deletedEntry;
+      return Acronym
+        .findOne()
+        .exec()
+        .then(entry => {
+          deletedEntry = entry;
+          return chai.request(app)
+            .delete(`/acronyms/${deletedEntry.id}`)
+        })
+        .then(res => {
+          res.should.have.status(204);
+          Acronym
+            .findById(deletedEntry.id)
+            .exec()
+            .then(entry => {
+              should.not.exist(entry);
+            });
+        });
+    }); //end of it block
+  })//end of DELETE test
 }); //end of all tests for Acronym API
