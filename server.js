@@ -25,17 +25,19 @@ app.use(function(req, res, next) {
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
 app.use('/colors', colorRouter);
+app.use('/users', usersRouter);
 
 app.get('/main', (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
 });
 
-app.post('/users', (req, res) => {
-  res.status(201).redirect('/main');
+//
+// app.post('/users', (req, res) => {
+//   res.status(201).redirect('/main');
+// });
+app.use('*', (req, res) => {
+  res.status(404).json({message: 'Request not found'});
 });
-
-
-
 
 let server;
 

@@ -54,7 +54,7 @@ const Color = mongoose.model('Color', colorSchema);
 
 //MODEL FOR USERS
 const userSchema = mongoose.Schema({
-  userName: {
+  username: {
     type: String,
     required: true,
     unique: true
