@@ -53,7 +53,7 @@ router.post('/', (req, res) => {
     return res.status(422).json({message: 'Incorrect field length: username'});
   }
   if(typeof password !== 'string' || typeof confirmPassword !== 'string') {
-    return res.status(422).json({message: Incorrect field type: password});
+    return res.status(422).json({message: 'Incorrect field type: password'});
   }
   password = password.trim();
   confirmPassword = confirmPassword.trim();
@@ -89,5 +89,22 @@ router.post('/', (req, res) => {
       res.status(500).json({message: 'Internal server error: Users Router'});
     });
 });
+
+//just for testing - remove prior to deployment
+router.get('/', (req, res) => {
+  User
+    .find()
+    .exec()
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err => {
+      res.status(500).json({message: 'Internal server error: Users Router'});
+    });
+});
+
+// router.get('/main', passport.authenticate('basic', {session: true}), (req, res) => {
+//   res.status(200).sendFile(__dirname + '/public/main.html');
+// });
 
 module.exports = router;

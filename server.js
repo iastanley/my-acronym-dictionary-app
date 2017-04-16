@@ -1,6 +1,9 @@
+'use strict';
+const {BasicStrategy} = require('passport-http');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const app = express();
 
 const usersRouter = require('./routers/usersRouter');
@@ -8,6 +11,7 @@ const acronymsRouter = require('./routers/acronymsRouter');
 const categoryRouter = require('./routers/categoryRouter');
 const colorRouter = require('./routers/colorRouter');
 const {PORT, DATABASE_URL} = require('./config.js');
+const {User} = require('./models');
 
 mongoose.Promise = global.Promise;
 
@@ -27,7 +31,7 @@ app.use('/categories', categoryRouter);
 app.use('/colors', colorRouter);
 app.use('/users', usersRouter);
 
-app.get('/main', (req, res) => {
+app.get('/main', passport.authenticate('basic', {session: true}), (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
 });
 
