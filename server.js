@@ -1,9 +1,9 @@
 'use strict';
-const {BasicStrategy} = require('passport-http');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
 const usersRouter = require('./routers/usersRouter');
@@ -26,19 +26,40 @@ app.use(function(req, res, next) {
   next();
 });
 
+passport.use(new LocalStrategy(function(username, password, done){
+  User
+    .findOne({username: username}, function(err, user) {
+      console.log('user: ', user);
+      if (err) {return done(err);}
+      if (!user) {
+        return done(null, false, {message: 'Incorrect username'});
+      }
+      if (!user.validatePassword(password)) {
+        return done(null, false, {message: 'Invalid password'});
+      }
+      return done(null, user);
+    });
+}));
+
+app.use(passport.initialize());
+
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
 app.use('/colors', colorRouter);
 app.use('/users', usersRouter);
 
-app.get('/main', passport.authenticate('basic', {session: true}), (req, res) => {
+app.post('/login', passport.authenticate('local',
+  {
+    successRedirect: '/main',
+    failureRedirect: '/',
+    failureFlash: false
+  })
+);
+
+app.get('/main', (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
 });
 
-//
-// app.post('/users', (req, res) => {
-//   res.status(201).redirect('/main');
-// });
 app.use('*', (req, res) => {
   res.status(404).json({message: 'Request not found'});
 });
