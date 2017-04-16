@@ -1,9 +1,14 @@
 'use strict';
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const flash = require('connect-flash');
+
 const app = express();
 
 const usersRouter = require('./routers/usersRouter');
@@ -17,6 +22,21 @@ mongoose.Promise = global.Promise;
 
 app.use(morgan('common'));
 app.use(express.static('public'));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
+
+//Express Session
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
+
+// Passport initializ
+app.use(passport.initialize());
+app.use(passport.session());
 
 // to allow testing of ajax in local dev environment
 app.use(function(req, res, next) {
@@ -26,35 +46,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-passport.use(new LocalStrategy(function(username, password, done){
-  User
-    .findOne({username: username}, function(err, user) {
-      console.log('user: ', user);
-      if (err) {return done(err);}
-      if (!user) {
-        return done(null, false, {message: 'Incorrect username'});
-      }
-      if (!user.validatePassword(password)) {
-        return done(null, false, {message: 'Invalid password'});
-      }
-      return done(null, user);
-    });
-}));
-
-app.use(passport.initialize());
-
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
 app.use('/colors', colorRouter);
 app.use('/users', usersRouter);
-
-app.post('/login', passport.authenticate('local',
-  {
-    successRedirect: '/main',
-    failureRedirect: '/',
-    failureFlash: false
-  })
-);
 
 app.get('/main', (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');

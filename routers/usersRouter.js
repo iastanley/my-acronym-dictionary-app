@@ -1,43 +1,13 @@
 'use strict';
-const {BasicStrategy} = require('passport-http');
 const express = require('express');
-const bodyParser = require('body-parser');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const router = express.Router();
 
 const {User} = require('../models');
 
-const router = express.Router();
-
-router.use(express.static('../public'));
-router.use(bodyParser.json());
-
-const basicStrategy = new BasicStrategy((username, password, callback) => {
-  let user;
-  User
-    .findOne({username: username})
-    .exec()
-    .then(_user => {
-      user = _user;
-      if (!user) {
-        return callback(null, false, {message: 'Incorrect username'});
-      }
-      return user.validatePassword(password);
-    })
-    .then(isValid => {
-      if (!isValid) {
-        return callback(null, false, {message: 'Incorrect password'});
-      }
-      else {
-        return callback(null, user)
-      }
-    });
-});
-
-passport.use(basicStrategy);
-router.use(passport.initialize());
-
 //route to add a new unique user
-router.post('/', (req, res) => {
+router.post('/signup', (req, res) => {
   if (!req.body) {
     return res.status(400).json({message: 'No request body'});
   }
@@ -81,13 +51,64 @@ router.post('/', (req, res) => {
           password: hash
         });
     })
-    .then(() => {
-      return res.status(201).redirect('/main');
+    .then(user => {
+      //login after creating new user
+      req.login(user, function(err) {
+        if (err) {return next(err);}
+        return res.redirect('/main');
+      })
     })
     .catch(err => {
       console.error(err);
       res.status(500).json({message: 'Internal server error: Users Router'});
     });
+});
+
+passport.use(new LocalStrategy(function(username, password, done){
+  let user;
+  User
+    .findOne({username: username})
+    .exec()
+    .then(_user => {
+      user = _user;
+      if (!user) {
+        return done(null, false, {message: 'Incorrect username'});
+      }
+      return user.validatePassword(password);
+    })
+    .then(isValid => {
+      if (!isValid) {
+        return done(null, false, {message: 'Incorrect password'});
+      }
+      else {
+        return done(null, user);
+      }
+    });
+}));
+
+//login route
+router.post('/login', passport.authenticate('local',
+  {
+    successRedirect: '/main',
+    failureRedirect: '/',
+    failureFlash: true
+  })
+);
+
+//logout route
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
 });
 
 //just for testing - remove prior to deployment
