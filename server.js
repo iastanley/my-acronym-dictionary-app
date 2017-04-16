@@ -46,12 +46,20 @@ app.use(function(req, res, next) {
   next();
 });
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+}
+
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
 app.use('/colors', colorRouter);
 app.use('/users', usersRouter);
 
-app.get('/main', (req, res) => {
+app.get('/main', ensureAuthenticated, (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
 });
 
