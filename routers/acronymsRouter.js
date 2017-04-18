@@ -13,8 +13,12 @@ router.use(bodyParser.json());
 
 //get all acronyms
 router.get('/', (req, res) => {
+  let currentUser;
+  if (req.session && req.session.user) {
+    currentUser = req.session.user;
+  }
   Acronym
-    .find()
+    .find({userId: currentUser})
     .exec()
     .then(acronyms => {
       res.status(200).json(acronyms.map(acronym => acronym.apiResponse()));
@@ -26,6 +30,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  let currentUser;
+  if (req.session && req.session.user) {
+    currentUser = req.session.user;
+  }
   //validate required fields
   const requiredFields = ['acronym', 'spellOut', 'categoryTitle'];
   requiredFields.forEach(field => {
@@ -37,7 +45,7 @@ router.post('/', (req, res) => {
   });
 
   let newData = {
-    userId: req.body.userId || 'defaultUser',
+    userId: currentUser || 'defaultUser',
     acronym: req.body.acronym,
     spellOut: req.body.spellOut,
     definition: req.body.definition || '',

@@ -4,7 +4,17 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = express.Router();
 
-const {User} = require('../models');
+const {User, Color} = require('../models');
+const colorData = require('../color-data.json');
+
+//add the same username to each color document of Color data
+function generateUserColors(username, colorArray) {
+  const colors = colorArray.splice();
+  colors.forEach(color => {
+    color.user = username;
+  });
+  return colorArray;
+}
 
 //route to add a new unique user
 router.post('/signup', (req, res) => {
@@ -55,6 +65,7 @@ router.post('/signup', (req, res) => {
       //login after creating new user
       req.login(user, function(err) {
         if (err) {return next(err);}
+        req.session.user = req.user.username;
         return res.redirect('/main');
       })
     })
@@ -89,10 +100,12 @@ passport.use(new LocalStrategy(function(username, password, done){
 //login route
 router.post('/login', passport.authenticate('local',
   {
-    successRedirect: '/main',
     failureRedirect: '/',
     failureFlash: true
-  })
+  }), (req, res) => {
+    req.session.user = req.user.username;
+    res.redirect('/main');
+  }
 );
 
 //logout route
