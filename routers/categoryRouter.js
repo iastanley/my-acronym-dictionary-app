@@ -15,6 +15,9 @@ let currentUser;
 router.get('/', (req, res) => {
   if (req.session && req.session.username) {
     currentUser = req.session.username;
+  } else {
+    //for unit tests
+    currentUser = 'testUser';
   }
   console.log('Category route currentUser: ' + currentUser);
   Category

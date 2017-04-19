@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 
 const app = express();
@@ -30,8 +31,9 @@ app.use(flash());
 //Express Session
 app.use(session({
   secret: 'secret',
-  saveUninitialized: true,
-  resave: true
+  saveUninitialized: false,
+  resave: false,
+  store: new MongoStore({url: DATABASE_URL})
 }));
 
 // Passport initializ

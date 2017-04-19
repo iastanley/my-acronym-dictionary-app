@@ -32,14 +32,3 @@ describe('tests for static pages', function() {
       });
   });
 }); //end of Static Page Loading tests
-
-//this will move to another test file eventually
-describe('Users Route', function() {
-  it('POST should send successfully', function() {
-    chai.request(app)
-      .post('/users')
-      .then(res => {
-        res.should.have.status(201);
-      });
-  });
-}); //end of Users Route tests

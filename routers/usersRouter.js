@@ -9,11 +9,12 @@ const colorData = require('../color-data.json');
 
 //add the same username to each color document of Color data
 function generateUserColors(username, colorArray) {
-  const colors = JSON.parse(colorArray);
-  colors.forEach(color => {
-    color.user = username;
+  const colors = [];
+  colorArray.forEach(color => {
+    color.username = username;
+    colors.push(color);
   });
-  return colorArray;
+  return colors;
 }
 
 //route to add a new unique user
@@ -52,6 +53,10 @@ router.post('/signup', (req, res) => {
       if (count > 0) {
         return res.status(422).json({message: 'Username already taken'});
       }
+      return Color
+        .insertMany(generateUserColors(username, colorData));
+    })
+    .then(() => {
       return User.hashPassword(password);
     })
     .then(hash => {
