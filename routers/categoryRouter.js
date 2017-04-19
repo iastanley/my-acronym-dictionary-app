@@ -12,12 +12,12 @@ const {Acronym, Category, Color} = require('../models');
 router.use(bodyParser.json());
 
 router.get('/', (req, res) => {
-  const filter = {};
-  if (req.query.title) {
-    filter.title = req.query.title;
+  let currentUser;
+  if (req.session && req.session.user) {
+    currentUser = req.session.user;
   }
   Category
-    .find(filter)
+    .find(username: currentUser)
     .exec()
     .then(categories => {
       res.status(200).json(categories.map(category => category.apiResponse()));
@@ -42,6 +42,10 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  let currentUser;
+  if (req.session && req.session.user) {
+    currentUser = req.session.user;
+  }
   const requiredFields = ['title', 'color'];
   requiredFields.forEach(field => {
     if (!(field in req.body)) {
@@ -53,6 +57,7 @@ router.post('/', (req, res) => {
 
   Category
     .create({
+      username: currentUser,
       title: req.body.title,
       color: req.body.color
     })
@@ -66,6 +71,10 @@ router.post('/', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
+  let currentUser;
+  if (req.session && req.session.user) {
+    currentUser = req.session.user;
+  }
   const deletedId = req.params.id;
   Category
     .findByIdAndRemove(deletedId)
@@ -73,7 +82,7 @@ router.delete('/:id', (req, res) => {
     .then(category => {
       return Color
         .findOneAndUpdate(
-          {hexCode: category.color},
+          {username: currentUser, hexCode: category.color},
           {$set: {used: 'false'}}
         )
         .exec();

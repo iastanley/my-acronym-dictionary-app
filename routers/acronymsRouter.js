@@ -14,8 +14,8 @@ router.use(bodyParser.json());
 //get all acronyms
 router.get('/', (req, res) => {
   let currentUser;
-  if (req.session && req.session.user) {
-    currentUser = req.session.user;
+  if (req.session && req.session.username) {
+    currentUser = req.session.username;
   }
   Acronym
     .find({userId: currentUser})
@@ -45,14 +45,14 @@ router.post('/', (req, res) => {
   });
 
   let newData = {
-    userId: currentUser || 'defaultUser',
+    username: currentUser,
     acronym: req.body.acronym,
     spellOut: req.body.spellOut,
     definition: req.body.definition || '',
   }
 
   Category
-    .findOne({title: req.body.categoryTitle})
+    .findOne({username: currentUser, title: req.body.categoryTitle})
     .exec()
     .then(category => {
       if (category) {
@@ -66,7 +66,7 @@ router.post('/', (req, res) => {
         //randomly select one of the available colors
         let hexCode = '';
         Color
-          .find({used: 'false'})
+          .find({username: currentUser, used: 'false'})
           .exec()
           .then(colors => {
             if (!colors.length) {
@@ -84,6 +84,7 @@ router.post('/', (req, res) => {
               //create a new category using the hexCode from randomly selected color
               Category
                 .create({
+                  username: currentUser,
                   title: req.body.categoryTitle,
                   color: hexCode
                 })
@@ -137,6 +138,10 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
+  let currentUser;
+  if (req.session && req.session.user) {
+    currentUser = req.session.user;
+  }
   Acronym
     .findByIdAndRemove(req.params.id)
     .exec()
@@ -155,7 +160,7 @@ router.delete('/:id', (req, res) => {
               .then(category => {
                 Color
                   .findOneAndUpdate(
-                    {hexCode: category.color},
+                    {username: currentUser, hexCode: category.color},
                     {$set: {used: 'false'}}
                   )
                   .exec()
