@@ -10,14 +10,15 @@ mongoose.Promise = global.Promise;
 const {Acronym, Category, Color} = require('../models');
 
 router.use(bodyParser.json());
+let currentUser;
 
 router.get('/', (req, res) => {
-  let currentUser;
-  if (req.session && req.session.user) {
-    currentUser = req.session.user;
+  if (req.session && req.session.username) {
+    currentUser = req.session.username;
   }
+  console.log('Category route currentUser: ' + currentUser);
   Category
-    .find(username: currentUser)
+    .find({username: currentUser})
     .exec()
     .then(categories => {
       res.status(200).json(categories.map(category => category.apiResponse()));
@@ -42,10 +43,6 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let currentUser;
-  if (req.session && req.session.user) {
-    currentUser = req.session.user;
-  }
   const requiredFields = ['title', 'color'];
   requiredFields.forEach(field => {
     if (!(field in req.body)) {
@@ -71,10 +68,6 @@ router.post('/', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  let currentUser;
-  if (req.session && req.session.user) {
-    currentUser = req.session.user;
-  }
   const deletedId = req.params.id;
   Category
     .findByIdAndRemove(deletedId)

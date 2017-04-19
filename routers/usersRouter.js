@@ -9,7 +9,7 @@ const colorData = require('../color-data.json');
 
 //add the same username to each color document of Color data
 function generateUserColors(username, colorArray) {
-  const colors = colorArray.splice();
+  const colors = JSON.parse(colorArray);
   colors.forEach(color => {
     color.user = username;
   });
@@ -67,7 +67,7 @@ router.post('/signup', (req, res) => {
         if (err) {return next(err);}
         req.session.username = req.user.username;
         return res.redirect('/main');
-      })
+      });
     })
     .catch(err => {
       console.error(err);
@@ -139,10 +139,10 @@ router.get('/', (req, res) => {
 });
 
 //Example of protected route - this does not help me...
-router.get('/main',
-  passport.authenticate('basic', {session: false}),
-  (req, res) => {
-    res.redirect('/main');
-  });
+// router.get('/main',
+//   passport.authenticate('basic', {session: false}),
+//   (req, res) => {
+//     res.redirect('/main');
+//   });
 
 module.exports = router;

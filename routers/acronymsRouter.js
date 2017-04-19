@@ -11,14 +11,16 @@ const {Acronym, Category, Color} = require('../models');
 
 router.use(bodyParser.json());
 
+let currentUser;
+
 //get all acronyms
 router.get('/', (req, res) => {
-  let currentUser;
   if (req.session && req.session.username) {
     currentUser = req.session.username;
   }
+  // console.log(currentUser);
   Acronym
-    .find({userId: currentUser})
+    .find({username: currentUser})
     .exec()
     .then(acronyms => {
       res.status(200).json(acronyms.map(acronym => acronym.apiResponse()));
@@ -30,10 +32,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let currentUser;
-  if (req.session && req.session.user) {
-    currentUser = req.session.user;
-  }
   //validate required fields
   const requiredFields = ['acronym', 'spellOut', 'categoryTitle'];
   requiredFields.forEach(field => {
@@ -138,10 +136,6 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  let currentUser;
-  if (req.session && req.session.user) {
-    currentUser = req.session.user;
-  }
   Acronym
     .findByIdAndRemove(req.params.id)
     .exec()
