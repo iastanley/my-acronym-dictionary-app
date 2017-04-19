@@ -65,7 +65,7 @@ router.post('/signup', (req, res) => {
       //login after creating new user
       req.login(user, function(err) {
         if (err) {return next(err);}
-        req.session.user = req.user.username;
+        req.session.username = req.user.username;
         return res.redirect('/main');
       })
     })
@@ -103,7 +103,7 @@ router.post('/login', passport.authenticate('local',
     failureRedirect: '/',
     failureFlash: true
   }), (req, res) => {
-    req.session.user = req.user.username;
+    req.session.username = req.user.username;
     res.redirect('/main');
   }
 );
@@ -111,6 +111,7 @@ router.post('/login', passport.authenticate('local',
 //logout route
 router.get('/logout', function(req, res){
   req.logout();
+  req.session.destroy();//end session
   res.redirect('/');
 });
 
