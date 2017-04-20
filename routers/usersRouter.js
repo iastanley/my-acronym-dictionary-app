@@ -7,6 +7,28 @@ const router = express.Router();
 const {User, Color} = require('../models');
 const colorData = require('../color-data.json');
 
+passport.use(new LocalStrategy(function(username, password, done){
+  let user;
+  User
+    .findOne({username: username})
+    .exec()
+    .then(_user => {
+      user = _user;
+      if (!user) {
+        return done(null, false, {message: 'Incorrect username'});
+      }
+      return user.validatePassword(password);
+    })
+    .then(isValid => {
+      if (!isValid) {
+        return done(null, false, {message: 'Incorrect password'});
+      }
+      else {
+        return done(null, user);
+      }
+    });
+}));
+
 //add the same username to each color document of Color data
 function generateUserColors(username, colorArray) {
   const colors = [];
@@ -24,25 +46,25 @@ router.post('/signup', (req, res) => {
   }
   let {username, password, confirmPassword} = req.body;
   if (!username || !password || !confirmPassword) {
-    return res.status(422).json({message: 'Missing field'});
+    return res.status(422).send('Missing field');
   }
   if (typeof username !== 'string') {
-    return res.status(422).json({message: 'Incorrect field type: username'});
+    return res.status(422).send('Incorrect field type: username');
   }
   username = username.trim();
   if (username === '') {
-    return res.status(422).json({message: 'Incorrect field length: username'});
+    return res.redirect('/error');
   }
   if(typeof password !== 'string' || typeof confirmPassword !== 'string') {
-    return res.status(422).json({message: 'Incorrect field type: password'});
+    return res.status(422).send('Incorrect field type: password');
   }
   password = password.trim();
   confirmPassword = confirmPassword.trim();
   if (password === '') {
-    return res.status(422).json({message: 'Incorrect field length: password'});
+    return res.redirect('/error');
   }
   if (password !== confirmPassword) {
-    return res.status(422).json({message: 'Confirmation password does not match'});
+    return res.redirect('/error');
   }
 
   return User
@@ -51,7 +73,7 @@ router.post('/signup', (req, res) => {
     .exec()
     .then(count => {
       if (count > 0) {
-        return res.status(422).json({message: 'Username already taken'});
+        return res.redirect('/error');
       }
       return Color
         .insertMany(generateUserColors(username, colorData));
@@ -80,38 +102,23 @@ router.post('/signup', (req, res) => {
     });
 });
 
-passport.use(new LocalStrategy(function(username, password, done){
-  let user;
-  User
-    .findOne({username: username})
-    .exec()
-    .then(_user => {
-      user = _user;
-      if (!user) {
-        return done(null, false, {message: 'Incorrect username'});
-      }
-      return user.validatePassword(password);
-    })
-    .then(isValid => {
-      if (!isValid) {
-        return done(null, false, {message: 'Incorrect password'});
-      }
-      else {
-        return done(null, user);
-      }
+//testing login route
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.redirect('/error');
+    }
+    req.login(user, function(loginErr) {
+      if (loginErr) {return next(loginErr);}
+      req.session.username = req.user.username;
+      console.log(req.session.username);
+      return res.redirect('/main');
     });
-}));
-
-//login route
-router.post('/login', passport.authenticate('local',
-  {
-    failureRedirect: '/',
-    failureFlash: true
-  }), (req, res) => {
-    req.session.username = req.user.username;
-    res.redirect('/main');
-  }
-);
+  })(req, res, next);
+});
 
 //logout route
 router.get('/logout', function(req, res){

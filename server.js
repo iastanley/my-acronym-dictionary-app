@@ -41,12 +41,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // to allow testing of ajax in local dev environment
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Acess-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Acess-Control-Allow-Headers', 'Content-Type');
-//   next();
-// });
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Acess-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Acess-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 
 function ensureAuthenticated(req, res, next) {
@@ -61,6 +61,10 @@ app.use('/users', usersRouter);
 app.use('/colors', colorRouter);
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
+
+app.get('/error', (req, res) => {
+  res.status(200).sendFile(__dirname + '/public/indexerror.html');
+});
 
 app.get('/main', ensureAuthenticated, (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
