@@ -1,5 +1,9 @@
 body {
-  margin-top: 50px;
+  font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+  font-weight: 600;
 }
 
 h3 {
@@ -7,16 +11,34 @@ h3 {
   margin-bottom: 10px;
 }
 
+.example-text {
+  margin: 10px auto;
+}
+
+.main {
+  margin-top: 50px;
+}
+
+.error-msg {
+  color: red;
+}
+
 .navbar {
   margin-bottom: 0;
 }
 
 .navbar-default {
-  background-color: #ddd;
+  background-color: #7AE6B6;
 }
 
 .navbar-default .navbar-brand {
-  color: #cc2634;
+  color: #000;
+}
+
+.btn-link {
+  color: #36579F;
+  font-size: 1.5em;
+  font-weight: 600;
 }
 
 .navbar-brand {
@@ -27,8 +49,8 @@ h3 {
   display: none;
 }
 
-.navbar-default .navbar-brand:hover {
-  color: #A32634;
+.navbar-default .navbar-brand:hover, .btn-link:hover {
+  color: #28298F;
 }
 
 .navbar>.container-fluid .navbar-brand, .navbar>.container-fluid .navbar-right {
@@ -42,12 +64,12 @@ h3 {
 
 .btn-custom {
   color: #fff;
-  background-color: #cc2634
+  background-color: #36579F;
 }
 
-.btn-custom:hover {
+.btn-custom:hover, .btn-custom:focus {
   color: #fff;
-  background-color: #A32634
+  background-color: #28298F;
 }
 
 .category {
@@ -55,7 +77,6 @@ h3 {
 }
 
 .option-btn {
-  /*float: right;*/
   background: none;
   border: none;
   vertical-align: middle;
@@ -101,13 +122,22 @@ h3 {
 }
 
 .navbar-toggle .icon-bar {
-  background-color: black;
+  background-color: #36579F;
 }
 
 .navbar-toggle {
-  border: 1px solid black;
+  border: 1px solid #36579F;
   border-radius: 5px;
   margin: 10px 0 0 0;
+}
+
+.index-page h1, .index-page .button-section {
+  margin: 50px auto;
+}
+
+.index-page {
+  height: 100vh;
+  background-color: #7AE6B6;
 }
 
 #all-categories {
@@ -128,11 +158,11 @@ h3 {
   }
 
   .main-search {
-    border-left: 2px solid #ddd;
+    border-left: 1px solid #ddd;
   }
 
   .overflow-scroll {
-    height: 75vh;
+    height: 78vh;
     overflow-y: scroll;
   }
 

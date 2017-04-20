@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const cookieParser = require('cookie-parser');//may not be needed
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const morgan = require('morgan');
@@ -22,8 +22,8 @@ const {User} = require('./models');
 mongoose.Promise = global.Promise;
 
 app.use(morgan('common'));
-app.use(express.static('public'));
-app.use(cookieParser()); //may not be needed
+app.use(express.static('public')); //index.html will be loaded here
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
@@ -41,13 +41,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // to allow testing of ajax in local dev environment
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Acess-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Acess-Control-Allow-Headers', 'Content-Type');
-//   next();
-// });
-
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Acess-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Acess-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -62,6 +61,12 @@ app.use('/colors', colorRouter);
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
 
+//route for login error messages
+app.get('/error', (req, res) => {
+  res.status(200).sendFile(__dirname + '/public/indexerror.html');
+});
+
+//main route to display user data
 app.get('/main', ensureAuthenticated, (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
 });
