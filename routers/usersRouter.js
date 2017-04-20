@@ -4,7 +4,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = express.Router();
 
-const {User, Color} = require('../models');
+const {Acronym, Category, Color, User} = require('../models');
 const colorData = require('../color-data.json');
 
 passport.use(new LocalStrategy(function(username, password, done){
@@ -75,8 +75,33 @@ router.post('/signup', (req, res) => {
       if (count > 0) {
         return res.redirect('/error');
       }
+      //seed database with unused colors for new user
       return Color
         .insertMany(generateUserColors(username, colorData));
+    })
+    //seed new user database with one example acronym
+    .then(() => {
+      return Color
+        .findOneAndUpdate({username: username}, {$set: {used: 'true'}}, {new: true})
+        .exec();
+    })
+    .then(color => {
+      return Category
+        .create({
+          username: username,
+          title: 'Example',
+          color: color.hexCode
+        });
+    })
+    .then(category => {
+      return Acronym
+        .create({
+          username: username,
+          acronym: 'MAD',
+          spellOut: 'My Acronym Dictionary',
+          definition: 'My Acronym Dictionary helps you keep track of acronyms and abbreviations for various settings. Click the Add Acronym button to get started.',
+          categoryId: category.id
+        });
     })
     .then(() => {
       return User.hashPassword(password);

@@ -13,6 +13,10 @@ h3 {
   margin-bottom: 10px;
 }
 
+.example-text {
+  margin: 10px auto;
+}
+
 .main {
   margin-top: 50px;
 }
@@ -35,6 +39,8 @@ h3 {
 
 .btn-link {
   color: #36579F;
+  font-size: 1.5em;
+  font-weight: 600;
 }
 
 .navbar-brand {
