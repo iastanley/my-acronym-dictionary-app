@@ -143,11 +143,4 @@ router.get('/', (req, res) => {
     });
 });
 
-//Example of protected route - this does not help me...
-// router.get('/main',
-//   passport.authenticate('basic', {session: false}),
-//   (req, res) => {
-//     res.redirect('/main');
-//   });
-
 module.exports = router;
