@@ -57,7 +57,7 @@ function storeLocalCategories(categoryData) {
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
   if (!categories) {
-    getCategoryData(storeLocalCategories);
+    getCategoryData(storeLocalCategories).then(()=> console.log('no categories'));
   }
   console.log(categories);
 
