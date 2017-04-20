@@ -2,7 +2,7 @@ const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/'
 
 //local storage of category list to reduce database calls
 if (!categories) {
-  let categories = [];
+  var categories = [];
 }
 
 function getAcronymData(callback) {
