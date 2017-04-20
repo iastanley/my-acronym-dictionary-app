@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 
 //MODEL FOR ACRONYMS
 const acronymSchema = mongoose.Schema({
-  userId: {type: String, required: true},
+  username: {type: String, required: true},
   acronym: {type: String, required: true},
   spellOut: {type: String, required: true},
   definition: String,
@@ -17,7 +17,7 @@ const acronymSchema = mongoose.Schema({
 acronymSchema.methods.apiResponse = function() {
   return {
     id: this.id,
-    userId: this.userId,
+    username: this.username,
     acronym: this.acronym,
     spellOut: this.spellOut,
     definition: this.definition,
@@ -29,6 +29,7 @@ const Acronym = mongoose.model('Acronym', acronymSchema);
 
 //MODEL FOR CATEGORIES
 const categorySchema = mongoose.Schema({
+  username: String,
   title: String,
   color: String
 });
@@ -37,6 +38,7 @@ const categorySchema = mongoose.Schema({
 categorySchema.methods.apiResponse = function() {
   return {
     id: this.id,
+    username: this.username,
     title: this.title,
     color: this.color
   }
@@ -46,6 +48,7 @@ const Category = mongoose.model('Category', categorySchema);
 
 //MODEL FOR COLORS
 const colorSchema = mongoose.Schema({
+  username: String,
   hexCode: String,
   used: String
 });
@@ -54,7 +57,7 @@ const Color = mongoose.model('Color', colorSchema);
 
 //MODEL FOR USERS
 const userSchema = mongoose.Schema({
-  userName: {
+  username: {
     type: String,
     required: true,
     unique: true

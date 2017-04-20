@@ -14,12 +14,25 @@ const colorData = require('../color-data.json');
 const should = chai.should();
 chai.use(chaiHttp);
 
+//test user
+const testName = 'testUser';
+
+//add the same username to each color document of Color data
+function generateUserColors(username, colorArray) {
+  const colors = [];
+  colorArray.forEach(color => {
+    color.username = username;
+    colors.push(color);
+  });
+  return colors;
+}
+
 //HELPER FUNCTIONS FOR CREATING TEST DATABASE
 function seedAcronymData() {
   const seedData = [];
   let categoryId;
   return Color
-    .insertMany(colorData)
+    .insertMany(generateUserColors(testName, colorData))
     .then(() => {
       // seedAcronymData();
       return Color
@@ -27,6 +40,7 @@ function seedAcronymData() {
         .exec()
         .then(color => {
           let newCategoryData = {
+            username: testName,
             title: faker.lorem.word(),
             color: color.hexCode
           };
@@ -52,7 +66,7 @@ function seedAcronymData() {
 function createAcronymEntry() {
 
   return {
-    userId: faker.name.firstName(),
+    username: testName,
     acronym: faker.hacker.abbreviation(),
     spellOut: faker.hacker.phrase(),
     definition: faker.lorem.sentence()
@@ -102,7 +116,7 @@ describe('Acronym API', function() {
           res.body.should.not.be.empty;
           res.body.forEach(entry => {
             entry.should.be.a('object');
-            entry.should.include.keys('userId', 'acronym', 'spellOut', 'categoryId');
+            entry.should.include.keys('username', 'acronym', 'spellOut', 'categoryId');
           });
           Acronym.count()
             .then(count => {

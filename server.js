@@ -1,6 +1,15 @@
+'use strict';
 const express = require('express');
+const cookieParser = require('cookie-parser');//may not be needed
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
+
 const app = express();
 
 const usersRouter = require('./routers/usersRouter');
@@ -8,11 +17,28 @@ const acronymsRouter = require('./routers/acronymsRouter');
 const categoryRouter = require('./routers/categoryRouter');
 const colorRouter = require('./routers/colorRouter');
 const {PORT, DATABASE_URL} = require('./config.js');
+const {User} = require('./models');
 
 mongoose.Promise = global.Promise;
 
 app.use(morgan('common'));
 app.use(express.static('public'));
+app.use(cookieParser()); //may not be needed
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
+
+//Express Session
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: false,
+  resave: false,
+  store: new MongoStore({url: DATABASE_URL})
+}));
+
+// Passport initializ
+app.use(passport.initialize());
+app.use(passport.session());
 
 // to allow testing of ajax in local dev environment
 // app.use(function(req, res, next) {
@@ -23,20 +49,26 @@ app.use(express.static('public'));
 // });
 
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+}
+
+app.use('/users', usersRouter);
+app.use('/colors', colorRouter);
 app.use('/acronyms', acronymsRouter);
 app.use('/categories', categoryRouter);
-app.use('/colors', colorRouter);
 
-app.get('/main', (req, res) => {
+app.get('/main', ensureAuthenticated, (req, res) => {
   res.status(200).sendFile(__dirname + '/public/main.html');
 });
 
-app.post('/users', (req, res) => {
-  res.status(201).redirect('/main');
+app.use('*', (req, res) => {
+  res.status(404).json({message: 'Request not found'});
 });
-
-
-
 
 let server;
 

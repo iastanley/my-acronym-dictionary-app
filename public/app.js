@@ -36,21 +36,23 @@ function getCategoryDataById(id) {
 function displayCategories(categoryData) {
   storeLocalCategories(categoryData);
   let html = '';
-  categoryData.forEach(category => {
-    html +=
-      `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
-        <div class="panel-body">
-          <h3 class="panel-title">${category.title}</h3>
-          <button class="option-btn" type="button" data-toggle="modal"
-          data-target="#delete-confirm"
-          data-id="${category.id}"
-          data-type="category">
-            <span class="glyphicon glyphicon-remove">
-            </span>
-          </button>
-        </div>
-      </div>`;
-  });
+  if (categoryData.length) {
+    categoryData.forEach(category => {
+      html +=
+        `<div class="panel panel-default category" id="${category.id}" style="background-color:${category.color}">
+          <div class="panel-body">
+            <h3 class="panel-title">${category.title}</h3>
+            <button class="option-btn" type="button" data-toggle="modal"
+            data-target="#delete-confirm"
+            data-id="${category.id}"
+            data-type="category">
+              <span class="glyphicon glyphicon-remove">
+              </span>
+            </button>
+          </div>
+        </div>`;
+    });
+  }
   $('#category-list').html(html);
   makeDeleteModalDynamic();
 }
@@ -62,49 +64,51 @@ function storeLocalCategories(categoryData) {
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
   let html = '';
-  data.forEach(acronym => {
-    let {title, color} = getCategoryDataById(acronym.categoryId);
+  if (data.length) {
+    data.forEach(acronym => {
+      let {title, color} = getCategoryDataById(acronym.categoryId);
 
-    html +=
-      `<div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading clearfix" style="background-color:${color}">
-            <h3 class="panel-title">${acronym.acronym}</h3>
-            <div class="dropdown">
-              <button class="option-btn dropdown-toggle" type="button" id="optionFor${acronym.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-option-vertical">
-                </span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${acronym.id}">
-                <li>
-                  <a href="#" class="updateLink" data-toggle="modal" data-target="#edit-entry"
-                  data-type="acronym"
-                  data-id="${acronym.id}"
-                  data-acronym="${acronym.acronym}"
-                  data-spellout="${acronym.spellOut}"
-                  data-definition="${acronym.definition || ''}">
-                    Edit
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="deleteLink" data-toggle="modal"
-                  data-target="#delete-confirm"
-                  data-type="acronym"
-                  data-id="${acronym.id}">
-                    Delete
-                  </a>
-                </li>
-              </ul>
+      html +=
+        `<div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix" style="background-color:${color}">
+              <h3 class="panel-title">${acronym.acronym}</h3>
+              <div class="dropdown">
+                <button class="option-btn dropdown-toggle" type="button" id="optionFor${acronym.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon-option-vertical">
+                  </span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="optionFor${acronym.id}">
+                  <li>
+                    <a href="#" class="updateLink" data-toggle="modal" data-target="#edit-entry"
+                    data-type="acronym"
+                    data-id="${acronym.id}"
+                    data-acronym="${acronym.acronym}"
+                    data-spellout="${acronym.spellOut}"
+                    data-definition="${acronym.definition || ''}">
+                      Edit
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="deleteLink" data-toggle="modal"
+                    data-target="#delete-confirm"
+                    data-type="acronym"
+                    data-id="${acronym.id}">
+                      Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-body">
+              <h4>${acronym.spellOut}</h4>
+              <p>${acronym.definition || ''}</p>
+              <p>Category: ${title}</p>
             </div>
           </div>
-          <div class="panel-body">
-            <h4>${acronym.spellOut}</h4>
-            <p>${acronym.definition || ''}</p>
-            <p>Category: ${title}</p>
-          </div>
-        </div>
-      </div>`
-  });
+        </div>`
+    });
+  }
   $('#acronym-entries').html(html);
   makeEditModalDynamic();
 }

@@ -11,10 +11,18 @@ const {Acronym, Category, Color} = require('../models');
 
 router.use(bodyParser.json());
 
+let currentUser;
+
 //get all acronyms
 router.get('/', (req, res) => {
+  if (req.session && req.session.username) {
+    currentUser = req.session.username;
+  } else {
+    //for unit tests
+    currentUser = 'testUser';
+  }
   Acronym
-    .find()
+    .find({username: currentUser})
     .exec()
     .then(acronyms => {
       res.status(200).json(acronyms.map(acronym => acronym.apiResponse()));
@@ -32,19 +40,19 @@ router.post('/', (req, res) => {
     if (!(field in req.body)) {
       const message = `Missing '${field}' in request body`;
       console.error(message);
-      return res.status(400).send(message);
+      return res.status(400).json({message: message});
     }
   });
 
   let newData = {
-    userId: req.body.userId || 'defaultUser',
+    username: currentUser,
     acronym: req.body.acronym,
     spellOut: req.body.spellOut,
     definition: req.body.definition || '',
   }
 
   Category
-    .findOne({title: req.body.categoryTitle})
+    .findOne({username: currentUser, title: req.body.categoryTitle})
     .exec()
     .then(category => {
       if (category) {
@@ -58,7 +66,7 @@ router.post('/', (req, res) => {
         //randomly select one of the available colors
         let hexCode = '';
         Color
-          .find({used: 'false'})
+          .find({username: currentUser, used: 'false'})
           .exec()
           .then(colors => {
             if (!colors.length) {
@@ -76,6 +84,7 @@ router.post('/', (req, res) => {
               //create a new category using the hexCode from randomly selected color
               Category
                 .create({
+                  username: currentUser,
                   title: req.body.categoryTitle,
                   color: hexCode
                 })
@@ -147,7 +156,7 @@ router.delete('/:id', (req, res) => {
               .then(category => {
                 Color
                   .findOneAndUpdate(
-                    {hexCode: category.color},
+                    {username: currentUser, hexCode: category.color},
                     {$set: {used: 'false'}}
                   )
                   .exec()

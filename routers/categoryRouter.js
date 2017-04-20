@@ -10,14 +10,18 @@ mongoose.Promise = global.Promise;
 const {Acronym, Category, Color} = require('../models');
 
 router.use(bodyParser.json());
+let currentUser;
 
 router.get('/', (req, res) => {
-  const filter = {};
-  if (req.query.title) {
-    filter.title = req.query.title;
+  if (req.session && req.session.username) {
+    currentUser = req.session.username;
+  } else {
+    //for unit tests
+    currentUser = 'testUser';
   }
+  console.log('Category route currentUser: ' + currentUser);
   Category
-    .find(filter)
+    .find({username: currentUser})
     .exec()
     .then(categories => {
       res.status(200).json(categories.map(category => category.apiResponse()));
@@ -53,6 +57,7 @@ router.post('/', (req, res) => {
 
   Category
     .create({
+      username: currentUser,
       title: req.body.title,
       color: req.body.color
     })
@@ -73,7 +78,7 @@ router.delete('/:id', (req, res) => {
     .then(category => {
       return Color
         .findOneAndUpdate(
-          {hexCode: category.color},
+          {username: currentUser, hexCode: category.color},
           {$set: {used: 'false'}}
         )
         .exec();
