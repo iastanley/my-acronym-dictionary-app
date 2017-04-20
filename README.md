@@ -2,7 +2,7 @@
 
 My Acronym Dictionary allows users to store acronyms and abbreviations by categories. For example, if you need to keep track of specialized abbreviations for medical school but you also want to keep track of the latest acronyms for trendy texting, My Acronym Dictionary will store these for you.
 
-![Mad-app-screenshot](Mad-app-screenshot.png)
+![screenshot](Mad-app-screenshot.png)
 
 ## Summary
 Once a user logs in they can:
