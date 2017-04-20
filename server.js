@@ -40,6 +40,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// to allow testing of ajax in local dev environment
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Acess-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Acess-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
