@@ -269,7 +269,6 @@ $(function() {
     .then(() => {
       getAcronymData(displayAcronymEntries);
     });
-
   addSearchListener();
   addCategoryListener();
   newEntryListener();
