@@ -57,10 +57,6 @@ function storeLocalCategories(categoryData) {
 
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
-  // if (!categories) {
-  //   getCategoryData(storeLocalCategories);
-  // }
-  // console.log(categories);
   let html = '';
   if (data.length) {
     data.forEach(acronym => {
