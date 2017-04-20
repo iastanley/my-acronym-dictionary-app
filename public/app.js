@@ -16,7 +16,10 @@ function getAcronymData(callback) {
 function getCategoryData(callback) {
   const settings = {
     url: BASE_URL + 'categories',
-    success: callback
+    success: callback,
+    complete: function() {
+      getAcronymData(displayAcronymEntries);
+    }
   }
   $.getJSON(settings);
 }
@@ -261,7 +264,7 @@ function addDeleteListener() {
 
 $(function() {
   getCategoryData(displayCategories);
-  getAcronymData(displayAcronymEntries);
+  // getAcronymData(displayAcronymEntries);
   addSearchListener();
   addCategoryListener();
   newEntryListener();
