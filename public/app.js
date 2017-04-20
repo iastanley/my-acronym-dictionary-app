@@ -1,7 +1,7 @@
 // const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/'
 const BASE_URL = 'http://localhost:8080/';
 
-//local storage of category list to reduce database calls
+// local storage of category list to reduce database calls
 if (!categories) {
   var categories = [];
 }
@@ -11,7 +11,7 @@ function getAcronymData(callback) {
     url: BASE_URL + 'acronyms',
     success: callback
   }
-  $.getJSON(settings);
+  return $.getJSON(settings);
 }
 
 function getCategoryData(callback) {
@@ -19,7 +19,7 @@ function getCategoryData(callback) {
     url: BASE_URL + 'categories',
     success: callback
   }
-  $.getJSON(settings);
+  return $.getJSON(settings);
 }
 
 function getCategoryDataById(id) {
@@ -57,10 +57,10 @@ function storeLocalCategories(categoryData) {
 
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
-  if (!categories) {
-    getCategoryData(storeLocalCategories);
-  }
-  console.log(categories);
+  // if (!categories) {
+  //   getCategoryData(storeLocalCategories);
+  // }
+  // console.log(categories);
   let html = '';
   if (data.length) {
     data.forEach(acronym => {
@@ -265,8 +265,11 @@ function addDeleteListener() {
 }
 
 $(function() {
-  getCategoryData(displayCategories);
-  getAcronymData(displayAcronymEntries);
+  getCategoryData(displayCategories)
+    .then(() => {
+      getAcronymData(displayAcronymEntries);
+    });
+
   addSearchListener();
   addCategoryListener();
   newEntryListener();
