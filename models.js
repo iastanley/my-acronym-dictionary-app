@@ -78,7 +78,6 @@ userSchema.methods.validatePassword = function(password) {
   return bcrypt.compare(password, this.password);
 }
 
-//statics is like a class method - can be called directly on Model
 userSchema.statics.hashPassword = function(password) {
   return bcrypt.hash(password, 10);
 }

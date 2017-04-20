@@ -1,29 +1,20 @@
 const BASE_URL = 'http://localhost:8080/';
 // const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/'
 
-
+//local storage of category list to reduce database calls
 let categories = [];
 
-//optional search or category Id parameters
-function getAcronymData(callback, {search='', categoryId=''}={}) {
+function getAcronymData(callback) {
   const settings = {
     url: BASE_URL + 'acronyms',
-    data: {
-      searchQuery: search,
-      categoryQuery: categoryId
-    },
     success: callback
   }
   $.getJSON(settings);
 }
 
-function getCategoryData(callback, {categoryTitle='', categoryId=''}={}) {
+function getCategoryData(callback) {
   const settings = {
     url: BASE_URL + 'categories',
-    data: {
-      title: categoryTitle,
-      id: categoryId
-    },
     success: callback
   }
   $.getJSON(settings);
@@ -68,7 +59,6 @@ function displayAcronymEntries(data) {
   if (data.length) {
     data.forEach(acronym => {
       let {title, color} = getCategoryDataById(acronym.categoryId);
-
       html +=
         `<div class="col-md-6">
           <div class="panel panel-default">
@@ -233,7 +223,6 @@ function addEditListener() {
       spellOut: $('#edit-spellout').val(),
       definition: $('#edit-definition').val() || ''
     }
-    console.log(formInput);
 
     $.ajax({
       type: 'PUT',
@@ -258,7 +247,7 @@ function addDeleteListener() {
       let id = $('#delete-confirm').attr('category-id');
       deleteUrl += `categories/${id}`;
     }
-    console.log(deleteUrl);
+
     $.ajax({
       type: 'DELETE',
       url: deleteUrl,

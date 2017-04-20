@@ -1,6 +1,4 @@
 body {
-  /*padding-top: 50px;*/
-  /*background-color: #7AE6B6;*/
   font-family: 'Raleway', sans-serif;
 }
 
@@ -79,7 +77,6 @@ h3 {
 }
 
 .option-btn {
-  /*float: right;*/
   background: none;
   border: none;
   vertical-align: middle;
@@ -125,21 +122,13 @@ h3 {
 }
 
 .navbar-toggle .icon-bar {
-  background-color: black;
+  background-color: #36579F;
 }
 
 .navbar-toggle {
-  border: 1px solid black;
+  border: 1px solid #36579F;
   border-radius: 5px;
   margin: 10px 0 0 0;
-}
-
-#all-categories {
-  background-color: #F8F8F8;
-}
-
-#mobile-category-collapse {
-  margin-top: 50px;
 }
 
 .index-page h1, .index-page .button-section {
@@ -149,6 +138,14 @@ h3 {
 .index-page {
   height: 100vh;
   background-color: #7AE6B6;
+}
+
+#all-categories {
+  background-color: #F8F8F8;
+}
+
+#mobile-category-collapse {
+  margin-top: 50px;
 }
 
 @media (min-width: 768px) {

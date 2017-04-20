@@ -162,17 +162,4 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-//just for testing - remove prior to deployment
-router.get('/', (req, res) => {
-  User
-    .find()
-    .exec()
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(err => {
-      res.status(500).json({message: 'Internal server error: Users Router'});
-    });
-});
-
 module.exports = router;
