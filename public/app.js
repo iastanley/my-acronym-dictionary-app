@@ -192,15 +192,17 @@ function addCategoryListener() {
   });
 }
 
-//add listener for add new entries
+//add listener for add new acronyms
 function newEntryListener() {
   $('#new-entry-form').on('submit', function(event) {
-    // event.preventDefault();
     let formInput = {
       acronym: $('#acronym-input').val(),
       spellOut: $('#spell-out-input').val(),
-      definition: $('#definition-input').val() || '',
       categoryTitle: $('#category-input').val()
+    }
+    //handle optional definition field
+    if ($('#definition-input').val()) {
+      formInput.definition = $('#definition-input').val();
     }
 
     $.ajax({
@@ -221,8 +223,11 @@ function addEditListener() {
     let formInput = {
       id: $('#edit-entry').attr('app-data-id'),
       acronym: $('#edit-acronym').val(),
-      spellOut: $('#edit-spellout').val(),
-      definition: $('#edit-definition').val() || ''
+      spellOut: $('#edit-spellout').val()
+    }
+    //handle optional definition field
+    if ($('#edit-definition').val()) {
+      formInput.definition = $('#edit-definition').val();
     }
 
     $.ajax({
