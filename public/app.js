@@ -20,6 +20,7 @@ function getCategoryData(callback) {
 }
 
 function getCategoryDataById(id) {
+  console.log(categories);
   return categories.find(category => category.id === id);
 }
 
