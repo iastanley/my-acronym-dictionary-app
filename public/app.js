@@ -16,10 +16,7 @@ function getAcronymData(callback) {
 function getCategoryData(callback) {
   const settings = {
     url: BASE_URL + 'categories',
-    success: callback,
-    complete: function() {
-      getAcronymData(displayAcronymEntries);
-    }
+    success: callback
   }
   $.getJSON(settings);
 }
@@ -59,6 +56,11 @@ function storeLocalCategories(categoryData) {
 
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
+  if (!categories) {
+    getCategoryData(storeLocalCategories);
+  }
+  console.log(categories);
+
   let html = '';
   if (data.length) {
     data.forEach(acronym => {
@@ -264,7 +266,7 @@ function addDeleteListener() {
 
 $(function() {
   getCategoryData(displayCategories);
-  // getAcronymData(displayAcronymEntries);
+  getAcronymData(displayAcronymEntries);
   addSearchListener();
   addCategoryListener();
   newEntryListener();
