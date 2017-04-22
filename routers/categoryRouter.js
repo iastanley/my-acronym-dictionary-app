@@ -19,7 +19,6 @@ router.get('/', (req, res) => {
     //for unit tests
     currentUser = 'testUser';
   }
-  console.log('Category route currentUser: ' + currentUser);
   Category
     .find({username: currentUser})
     .exec()

@@ -1,5 +1,6 @@
 body {
   font-family: 'Raleway', sans-serif;
+  background-color: #f8f8f8;
 }
 
 h1 {
@@ -7,8 +8,12 @@ h1 {
 }
 
 h3 {
-  margin-top: 10px;
+  margin-top: 0;
   margin-bottom: 10px;
+}
+
+.blue-txt {
+  color: #3657FF;
 }
 
 .example-text {
@@ -28,15 +33,15 @@ h3 {
 }
 
 .navbar-default {
-  background-color: #7AE6B6;
+  background-color: #000;
 }
 
 .navbar-default .navbar-brand {
-  color: #000;
+  color: #fff;
 }
 
 .btn-link {
-  color: #36579F;
+  color: #3657FF;
   font-size: 1.5em;
   font-weight: 600;
 }
@@ -64,7 +69,7 @@ h3 {
 
 .btn-custom {
   color: #fff;
-  background-color: #36579F;
+  background-color: #3657FF;
 }
 
 .btn-custom:hover, .btn-custom:focus {
@@ -92,7 +97,7 @@ h3 {
 }
 
 .search-results {
-  margin-top: 40px;
+  margin-top: 34px;
 }
 
 .dropdown {
@@ -106,6 +111,7 @@ h3 {
 .panel-title {
   float: left;
   line-height: 1.4;
+  font-weight: 600;
 }
 
 .search-results .panel-body {
@@ -113,44 +119,82 @@ h3 {
   overflow-y: scroll;
 }
 
-.selectedCategory {
+.panel.selectedCategory {
   border: 2px solid black;
 }
 
-.category-header {
-  display: none;
-}
-
 .navbar-toggle .icon-bar {
-  background-color: #36579F;
+  background-color: #aaa;
 }
 
 .navbar-toggle {
-  border: 1px solid #36579F;
+  border: 1px solid #aaa;
   border-radius: 5px;
   margin: 10px 0 0 0;
 }
 
-.index-page h1, .index-page .button-section {
+.index-page h1 {
+  margin: 20px auto;
+}
+
+.index-page .button-section {
   margin: 50px auto;
 }
 
 .index-page {
   height: 100vh;
-  background-color: #7AE6B6;
+  padding-top: 20px;
+  background: url("images/landing-page-background-min.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.panel {
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  border: none;
+}
+
+.search-error-msg {
+  font-size: 1.2em;
+  color: red;
+}
+
+#search-input {
+  height: 42px;
+  border: 1px solid #aaa;
+}
+
+#search-btn {
+  line-height: 2;
+  border: 1px solid #aaa;
 }
 
 #all-categories {
-  background-color: #F8F8F8;
+  background-color: #dfdff1;
 }
 
 #mobile-category-collapse {
-  margin-top: 50px;
+  margin-top: 55px;
 }
 
 @media (min-width: 768px) {
-  .index-page h1, .index-page .button-section {
-    margin: 100px auto;
+  h1 {
+    font-size: 4em;
+  }
+
+  h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .index-page {
+    padding-top: 100px;
+  }
+
+  .landing-pg-text {
+    width: 50%;
+    margin: auto;
+    font-size: 1.2em;
   }
 
   .navbar-brand span {
@@ -162,7 +206,7 @@ h3 {
   }
 
   .overflow-scroll {
-    height: 78vh;
+    height: 76vh;
     overflow-y: scroll;
   }
 
