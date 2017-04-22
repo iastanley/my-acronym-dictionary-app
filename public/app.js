@@ -56,6 +56,8 @@ function storeLocalCategories(categoryData) {
 
 //display acronym entries in main search area
 function displayAcronymEntries(data) {
+  //ensure that search error is removed before any acronyms are displayed
+  removeSearchError();
   let html = '';
   if (data.length) {
     data.forEach(acronym => {
@@ -103,6 +105,17 @@ function displayAcronymEntries(data) {
   }
   $('#acronym-entries').html(html);
   makeEditModalDynamic();
+}
+
+function displaySearchError(searchTerm) {
+  let html = `<p class="text-center search-error-msg">
+                No results found for <strong>${searchTerm}</strong>
+              <p>`;
+  $('#acronym-entries').html(html);
+}
+
+function removeSearchError() {
+  $('#acronym-entries').empty();
 }
 
 function makeEditModalDynamic() {
@@ -155,8 +168,11 @@ function searchAcronyms(searchTerm) {
     let searchResults = data.filter(item => {
       return (regex.test(item.acronym) || regex.test(item.spellOut));
     });
-    displayAcronymEntries(searchResults);
-
+    if (searchResults.length) {
+      displayAcronymEntries(searchResults);
+    } else {
+      displaySearchError(searchTerm);
+    }
   }
 }
 

@@ -157,6 +157,11 @@ h3 {
   border: 1px solid #aaa;
 }
 
+.search-error-msg {
+  font-size: 1.2em;
+  color: red;
+}
+
 #all-categories {
   background-color: #dfdff1;
 }
