@@ -33,12 +33,10 @@ h3 {
 }
 
 .navbar-default {
-  /*background-color: #dfdff1;*/
   background-color: #000;
 }
 
 .navbar-default .navbar-brand {
-  /*color: #000;*/
   color: #fff;
 }
 
