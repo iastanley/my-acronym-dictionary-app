@@ -12,6 +12,10 @@ h3 {
   margin-bottom: 10px;
 }
 
+.blue-txt {
+  color: #3657FF;
+}
+
 .example-text {
   margin: 10px auto;
 }
@@ -29,15 +33,17 @@ h3 {
 }
 
 .navbar-default {
-  background-color: #dfdff1;
+  /*background-color: #dfdff1;*/
+  background-color: #000;
 }
 
 .navbar-default .navbar-brand {
-  color: #000;
+  /*color: #000;*/
+  color: #fff;
 }
 
 .btn-link {
-  color: #36579F;
+  color: #3657FF;
   font-size: 1.5em;
   font-weight: 600;
 }
@@ -65,7 +71,7 @@ h3 {
 
 .btn-custom {
   color: #fff;
-  background-color: #36579F;
+  background-color: #3657FF;
 }
 
 .btn-custom:hover, .btn-custom:focus {
@@ -119,10 +125,6 @@ h3 {
   border: 2px solid black;
 }
 
-.category-header {
-  /*display: none;*/
-}
-
 .navbar-toggle .icon-bar {
   background-color: #aaa;
 }
@@ -133,13 +135,20 @@ h3 {
   margin: 10px 0 0 0;
 }
 
-.index-page h1, .index-page .button-section {
+.index-page h1 {
+  margin: 20px auto;
+}
+
+.index-page .button-section {
   margin: 50px auto;
 }
 
 .index-page {
   height: 100vh;
-  background-color: #dfdff1;
+  padding-top: 20px;
+  background: url("images/landing-page-background-min.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
 }
 
 .panel {
@@ -171,13 +180,23 @@ h3 {
 }
 
 @media (min-width: 768px) {
+  h1 {
+    font-size: 4em;
+  }
+
   h3 {
     margin-top: 20px;
     margin-bottom: 20px;
   }
 
-  .index-page h1, .index-page .button-section {
-    margin: 100px auto;
+  .index-page {
+    padding-top: 100px;
+  }
+
+  .landing-pg-text {
+    width: 50%;
+    margin: auto;
+    font-size: 1.2em;
   }
 
   .navbar-brand span {
