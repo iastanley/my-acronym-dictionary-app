@@ -1,5 +1,6 @@
 body {
   font-family: 'Raleway', sans-serif;
+  background-color: #f8f8f8;
 }
 
 h1 {
@@ -28,7 +29,7 @@ h3 {
 }
 
 .navbar-default {
-  background-color: #f1f1f9;
+  background-color: #dfdff1;
 }
 
 .navbar-default .navbar-brand {
@@ -92,7 +93,7 @@ h3 {
 }
 
 .search-results {
-  margin-top: 40px;
+  margin-top: 34px;
 }
 
 .dropdown {
@@ -106,6 +107,7 @@ h3 {
 .panel-title {
   float: left;
   line-height: 1.4;
+  font-weight: 600;
 }
 
 .search-results .panel-body {
@@ -113,7 +115,7 @@ h3 {
   overflow-y: scroll;
 }
 
-.selectedCategory {
+.panel.selectedCategory {
   border: 2px solid black;
 }
 
@@ -122,11 +124,11 @@ h3 {
 }
 
 .navbar-toggle .icon-bar {
-  background-color: #36579F;
+  background-color: #aaa;
 }
 
 .navbar-toggle {
-  border: 1px solid #36579F;
+  border: 1px solid #aaa;
   border-radius: 5px;
   margin: 10px 0 0 0;
 }
@@ -137,11 +139,26 @@ h3 {
 
 .index-page {
   height: 100vh;
-  background-color: #f1f1f9;
+  background-color: #dfdff1;
+}
+
+.panel {
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  border: none;
+}
+
+.form-control {
+  height: 42px;
+  border: 1px solid #aaa;
+}
+
+.input-group .btn-default {
+  line-height: 2;
+  border: 1px solid #aaa;
 }
 
 #all-categories {
-  background-color: #f1f1f9;
+  background-color: #dfdff1;
 }
 
 #mobile-category-collapse {
@@ -167,7 +184,7 @@ h3 {
   }
 
   .overflow-scroll {
-    height: 78vh;
+    height: 76vh;
     overflow-y: scroll;
   }
 
