@@ -147,19 +147,19 @@ h3 {
   border: none;
 }
 
-.form-control {
+.search-error-msg {
+  font-size: 1.2em;
+  color: red;
+}
+
+#search-input {
   height: 42px;
   border: 1px solid #aaa;
 }
 
-.input-group .btn-default {
+#search-btn {
   line-height: 2;
   border: 1px solid #aaa;
-}
-
-.search-error-msg {
-  font-size: 1.2em;
-  color: red;
 }
 
 #all-categories {
