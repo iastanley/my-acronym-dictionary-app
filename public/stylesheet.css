@@ -12,6 +12,14 @@ h3 {
   margin-bottom: 10px;
 }
 
+footer {
+  width: 100%;
+  padding: 1%;
+  background: #000;
+  text-align: center;
+  color: #fff;
+}
+
 .blue-txt {
   color: #3657FF;
 }
@@ -143,10 +151,25 @@ h3 {
 
 .index-page {
   height: 100vh;
+  color: #fff;
+}
+
+.index-page .title-section {
   padding-top: 20px;
   background: url("images/landing-page-background-min.png") no-repeat center center fixed;
   background-size: cover;
-  color: #fff;
+}
+
+.blue-section {
+  background: #3657FF;
+  min-height: 300px;
+}
+
+.black-section {
+  /*background: #000;*/
+  background: url("images/landing-page-background-min.png") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 300px;
 }
 
 .panel {
@@ -187,8 +210,12 @@ h3 {
     margin-bottom: 20px;
   }
 
-  .index-page {
+  .index-page .title-section {
     padding-top: 100px;
+  }
+
+  .blue-section, .black-section {
+    min-height: 50vh;
   }
 
   .landing-pg-text {
