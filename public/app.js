@@ -1,4 +1,5 @@
-const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/'
+const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/';
+// const BASE_URL = 'http://localhost:8080/';
 
 // local storage of category list to reduce database calls
 if (!categories) {
