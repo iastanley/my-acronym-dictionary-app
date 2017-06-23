@@ -163,13 +163,33 @@ footer {
 .blue-section {
   background: #3657FF;
   min-height: 300px;
+  padding: 10px 0;
 }
 
 .black-section {
-  /*background: #000;*/
   background: url("images/landing-page-background-min.png") no-repeat center center fixed;
   background-size: cover;
   min-height: 300px;
+  padding: 10px 0;
+}
+
+.screenshot {
+  border-radius: 10px;
+  max-width: 100%;
+}
+
+.black-section p, .blue-section p {
+  margin-top: 10px;
+}
+
+.blue-section a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.summary p {
+  margin-top: 20px;
+  text-align: justify;
 }
 
 .panel {
@@ -180,6 +200,21 @@ footer {
 .search-error-msg {
   font-size: 1.2em;
   color: red;
+}
+
+#scroll-up span {
+  display: block;
+  font-size: 3em;
+  margin: 5px auto;
+  border: 2px solid #fff;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+#scroll-up:hover {
+  cursor: pointer;
 }
 
 #search-input {
@@ -200,6 +235,7 @@ footer {
   margin-top: 55px;
 }
 
+/* Desktop Only Styles */
 @media (min-width: 768px) {
   h1 {
     font-size: 4em;
@@ -216,6 +252,25 @@ footer {
 
   .blue-section, .black-section {
     min-height: 50vh;
+    padding: 50px;
+  }
+
+  .summary h4 {
+    font-size: 2.2em;
+  }
+
+  .black-section p, .blue-section p {
+    font-size: 1.5em;
+    margin-top: 50px;
+  }
+
+  .summary p {
+    margin-top: 50px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    font-size: 1.5em;
   }
 
   .landing-pg-text {
@@ -243,6 +298,10 @@ footer {
 
   .navbar-toggle {
     display: none;
+  }
+
+  #scroll-up span {
+    margin-top: 50px;
   }
 
   #mobile-category-collapse {
