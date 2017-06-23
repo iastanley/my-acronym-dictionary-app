@@ -1,4 +1,5 @@
-const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/'
+// const BASE_URL = 'https://my-acronym-dictionary.herokuapp.com/'
+const BASE_URL = 'http://localhost:8080/';
 
 // local storage of category list to reduce database calls
 if (!categories) {
@@ -279,8 +280,24 @@ function addDeleteListener() {
     });
   });
 }
+// smooth scrolling on landing page
+function smoothScroll(hash) {
+  $('body, html').animate({
+    scrollTop: $(hash).offset().top
+  }, 800, function(){
+    window.location.hash = hash;
+  });
+}
 
+// smooth scrolling on landing page
 $(function() {
+  $('#scroll-up').on('click', function(event) {
+    if (this.hash) {
+      event.preventDefault();
+      smoothScroll(this.hash);
+    }
+  });
+  
   getCategoryData(displayCategories)
     .then(() => {
       getAcronymData(displayAcronymEntries);
