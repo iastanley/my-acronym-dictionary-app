@@ -54,6 +54,11 @@ footer {
   font-weight: 600;
 }
 
+.btn-link:hover {
+  color: #7289FF;
+  text-decoration: none;
+}
+
 .navbar-brand {
   font-size: 2em;
 }
@@ -62,8 +67,8 @@ footer {
   display: none;
 }
 
-.navbar-default .navbar-brand:hover, .btn-link:hover {
-  color: #28298F;
+.navbar-default .navbar-brand:hover {
+  color: #3657FF;
 }
 
 .navbar>.container-fluid .navbar-brand, .navbar>.container-fluid .navbar-right {
@@ -78,11 +83,13 @@ footer {
 .btn-custom {
   color: #fff;
   background-color: #3657FF;
+  border: 1px solid #3657FF;
 }
 
 .btn-custom:hover, .btn-custom:focus {
   color: #fff;
   background-color: #28298F;
+  border: 1px solid #fff;
 }
 
 .category {
@@ -156,7 +163,10 @@ footer {
 
 .index-page .title-section {
   padding-top: 20px;
-  background: url("images/landing-page-background-min.png") no-repeat center center fixed;
+  background:
+  linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+  url("images/landing-page-background-blue.png")
+  no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -167,7 +177,10 @@ footer {
 }
 
 .black-section {
-  background: url("images/landing-page-background-min.png") no-repeat center center fixed;
+  background:
+  linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+  url("images/landing-page-background-blue.png")
+  no-repeat center center fixed;
   background-size: cover;
   min-height: 300px;
   padding: 10px 0;
@@ -206,10 +219,8 @@ footer {
   display: block;
   font-size: 3em;
   margin: 5px auto;
-  border: 2px solid #fff;
   height: 50px;
   width: 50px;
-  border-radius: 50%;
   text-align: center;
 }
 

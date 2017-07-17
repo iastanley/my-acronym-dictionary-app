@@ -48,7 +48,7 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
-//to allow testing of ajax in local dev environment
+// to allow testing of ajax in local dev environment
 // app.use(function(req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
 //   res.header('Acess-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
